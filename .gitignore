@@ -1,5 +1,5 @@
 *.iml
-.gradle
+.gradle/
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -8,8 +8,21 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
+build/
 /captures
-.externalNativeBuild
-.cxx
+.externalNativeBuild/
+.cxx/
 local.properties
+*.log
+*.apk
+output.json
+.idea/
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
