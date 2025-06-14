@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickService(View view) {
-        Intent intent = new Intent(this, FoodRecipeRequestActivity.class);
+        Intent intent = new Intent(MainActivity.this, FoodRecipeRequestActivity.class);
         startActivity(intent);
-        finish();
     }
 }
