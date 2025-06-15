@@ -7,6 +7,7 @@
   android:fillViewport="true"
   tools:context=".activities.FoodRecipeRequestActivity">
 
+  <!-- ConstraintLayout to hold the complex search layout -->
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/complex_search_layout"
     android:layout_width="match_parent"
@@ -286,6 +287,7 @@
       android:autofillHints="Number of Recipes"
       android:hint="@string/number_of_recipes"
       android:inputType="number"
+      android:maxLength="3"
       app:layout_constraintBottom_toTopOf="@id/btn_find_recipes"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@id/number_of_recipes_label"
@@ -297,6 +299,7 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:text="@string/find_recipes"
+      android:onClick="searchRecipes"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"

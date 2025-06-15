@@ -1,6 +1,7 @@
 <resources>
   <string name="app_name">A6-Assignments</string>
   <string name="find_recipes">Find Recipes</string>
+  <string name="firebase_assignment">Firebase Assignment</string>
   <string name="group_6">Group - 6</string>
   <string name="search_query">Search Query</string>
   <string name="select_cuisines">Select Cuisines</string>

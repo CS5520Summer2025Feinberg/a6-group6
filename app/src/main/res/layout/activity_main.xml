@@ -7,17 +7,7 @@
   android:layout_height="match_parent"
   tools:context=".activities.MainActivity">
 
-  <Button
-    android:id="@+id/recipesButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:onClick="onClickService"
-    android:text="@string/find_recipes"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/groupName" />
-
+  <!-- The TextView to display the group name -->
   <TextView
     android:id="@+id/groupName"
     android:layout_width="wrap_content"
@@ -27,5 +17,29 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
+
+  <!-- The Button to navigate to the recipes service -->
+  <Button
+    android:id="@+id/recipesButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="onClickService"
+    android:text="@string/find_recipes"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/firebaseAssignmentButton"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/groupName" />
+
+  <!-- The Button to navigate to the firebase assignment -->
+  <Button
+    android:id="@+id/firebaseAssignmentButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="onClickService"
+    android:text="@string/firebase_assignment"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/recipesButton"
+    app:layout_constraintTop_toBottomOf="@id/groupName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

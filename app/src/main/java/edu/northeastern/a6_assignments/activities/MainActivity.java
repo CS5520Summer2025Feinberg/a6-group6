@@ -12,6 +12,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import edu.northeastern.a6_assignments.R;
 
+/**
+ * MainActivity is the entry point of the application. It sets up the user interface and handles
+ * user interactions.
+ */
 public class MainActivity extends AppCompatActivity {
 
   @Override
@@ -26,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     });
   }
 
+  /**
+   * This method is called when the user clicks the "Find Recipes" button. It starts the
+   * FoodRecipeRequestActivity.
+   *
+   * @param view The view that was clicked.
+   */
   public void onClickService(View view) {
     Intent intent = new Intent(MainActivity.this, FoodRecipeRequestActivity.class);
     startActivity(intent);
