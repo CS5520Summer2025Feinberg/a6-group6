@@ -76,14 +76,7 @@ public class ComplexSearchPOJORequest {
         request.append("&");
       }
       request.append(paramName).append("=");
-      String[] parts = value.split(" ");
-      if (parts.length != 1) {
-        request.append("\\\"");
-        request.append(value);
-        request.append("\\\"");
-      } else {
-        request.append(value);
-      }
+      request.append(value.replace(" ", "%20"));
     }
   }
 
@@ -123,27 +116,14 @@ public class ComplexSearchPOJORequest {
         if (!firstFlag) {
           request.append(",");
         }
-
+        String itemValue = null;
         if (item instanceof Cuisine) {
-          String cuisine = ((Cuisine) item).getValue();
-          String[] parts = cuisine.split(" ");
-          if (parts.length != 1) {
-            request.append("\\\"");
-            request.append(cuisine);
-            request.append("\\\"");
-          } else {
-            request.append(cuisine);
-          }
+          itemValue = ((Cuisine) item).getValue();
         } else if (item instanceof Intolerance) {
-          String intolerance = ((Intolerance) item).getValue();
-          String[] parts = intolerance.split(" ");
-          if (parts.length != 1) {
-            request.append("\\\"");
-            request.append(intolerance);
-            request.append("\\\"");
-          } else {
-            request.append(intolerance);
-          }
+          itemValue = ((Intolerance) item).getValue();
+        }
+        if (itemValue != null) {
+          request.append(itemValue.replace(" ", "%20"));
         }
         firstFlag = false;
       }

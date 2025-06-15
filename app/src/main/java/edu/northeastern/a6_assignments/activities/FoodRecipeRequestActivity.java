@@ -2,7 +2,6 @@ package edu.northeastern.a6_assignments.activities;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.os.Handler;
@@ -13,23 +12,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.slider.Slider;
 
+import edu.northeastern.a6_assignments.R;
 import edu.northeastern.a6_assignments.pojo.ComplexSearchResponseElement;
 import edu.northeastern.a6_assignments.pojo.Diet;
 import edu.northeastern.a6_assignments.pojo.Intolerance;
 import edu.northeastern.a6_assignments.pojo.MealTypes;
+import edu.northeastern.a6_assignments.pojo.Cuisine;
+import edu.northeastern.a6_assignments.pojo.ComplexSearchPOJORequest;
+import edu.northeastern.a6_assignments.helpers.ComplexSearchPOJOResponseHandlers;
+import edu.northeastern.a6_assignments.services.ComplexSearchRecipe;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.northeastern.a6_assignments.R;
-import edu.northeastern.a6_assignments.pojo.Cuisine;
-
-import edu.northeastern.a6_assignments.helpers.ComplexSearchPOJOResponseHandlers;
-import edu.northeastern.a6_assignments.pojo.ComplexSearchPOJORequest;
-import edu.northeastern.a6_assignments.services.ComplexSearchRecipe;
 
 /**
  * FoodRecipeRequestActivity is an Android activity that allows users to search for food recipes
@@ -59,9 +58,12 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   // Variables to hold search parameters
   private String query = "";
   private final List<String> cuisineList = new ArrayList<>();
+  private boolean[] cuisineSelectedItems;
   private final List<String> excludedCuisineList = new ArrayList<>();
+  private boolean[] excludedCuisineSelectedItems;
   private String diet = "";
   private final List<String> intolerancesList = new ArrayList<>();
+  private boolean[] intoleranceSelectedItems;
   private String mealType = "";
   private int maxReadyTime = 10;
   private int maxServings = 1;
@@ -70,7 +72,7 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
 
   // Holder for the search response
   private List<ComplexSearchResponseElement> responseHolder;
-  private Handler searchHandler = new Handler();
+  private final Handler searchHandler = new Handler();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +96,15 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     numberOfRecipesInput = findViewById(R.id.number_of_recipes);
 
     // Initialize lists for cuisines and intolerances
-    setupSelectItems(cuisineSelector, cuisineList, "Select Cuisines");
-    setupSelectItems(excludedCuisineSelector, excludedCuisineList, "Exclude Cuisines");
+    cuisineSelectedItems = new boolean[getListItems(R.id.cuisine_selector).size()];
+    setupSelectItems(cuisineSelector, cuisineList, "Select Cuisines", cuisineSelectedItems);
+    excludedCuisineSelectedItems = new boolean[getListItems(R.id.excluded_cuisine_selector).size()];
+    setupSelectItems(excludedCuisineSelector, excludedCuisineList, "Exclude Cuisines",
+        excludedCuisineSelectedItems);
     setupSingleItemSelector(dietSelector, "Select Diet");
-    setupSelectItems(intoleranceSelector, intolerancesList, "Select Intolerances");
+    intoleranceSelectedItems = new boolean[getListItems(R.id.intolerance_selector).size()];
+    setupSelectItems(intoleranceSelector, intolerancesList, "Select Intolerances",
+        intoleranceSelectedItems);
     setupSingleItemSelector(mealTypeSelector, "Select Meal Type");
     setupSlider(maxReadyTimeSlider, maxReadyTimeText, "Max Ready Time: ", " min", maxReadyTime);
     maxReadyTimeSlider.addOnChangeListener((s, value, fromUser) -> maxReadyTime = (int) value);
@@ -108,35 +115,119 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     String numOfRecipes = numberOfRecipesInput.getText().toString();
     numberOfRecipes = numOfRecipes.isEmpty() ? 1 : Integer.parseInt(numOfRecipes);
 
-    // Set up the number of recipes input field with validation
-    numberOfRecipesInput.setFilters(new InputFilter[]{
-        (source, start, end, dest, dstart, dend) -> {
-          try {
-            String input = dest.subSequence(0, dstart)
-                + source.toString()
-                + dest.subSequence(dend, dest.length());
-            if (input.isEmpty()) {
-              return null;
-            }
-            int value = Integer.parseInt(input);
-            if (value < 1 || value > 100) {
-              if (numberRangeToast != null) {
-                numberRangeToast.cancel();
-              }
-              numberRangeToast = Toast.makeText(
-                  FoodRecipeRequestActivity.this,
-                  "Please enter a value from 1 to 100",
-                  Toast.LENGTH_SHORT
-              );
-              numberRangeToast.show();
-              return "";
-            }
-          } catch (NumberFormatException e) {
-            return "";
-          }
-          return null;
-        }
-    });
+    // Restore instance state if available
+    restoreInstanceState(savedInstanceState);
+  }
+
+  /**
+   * This method updates the selected items array based on the selected list and all items. It marks
+   * the items as selected or not based on their presence in the selected list.
+   *
+   * @param allItems      The complete list of items to choose from.
+   * @param selectedList  The list of currently selected items.
+   * @param selectedItems The boolean array representing the selection state of each item.
+   */
+  private void updateSelectedItemsArray(List<String> allItems, List<String> selectedList,
+      boolean[] selectedItems) {
+    for (int i = 0; i < allItems.size(); i++) {
+      selectedItems[i] = selectedList.contains(allItems.get(i));
+    }
+  }
+
+  /**
+   * This method restores the instance state of the activity from the saved instance state bundle.
+   * It retrieves the search parameters and updates the UI elements accordingly.
+   *
+   * @param savedInstanceState The saved instance state bundle containing previous values.
+   */
+  private void restoreInstanceState(Bundle savedInstanceState) {
+    if (savedInstanceState == null) {
+      return;
+    }
+
+    // Restore search parameters from the saved instance state
+    query = savedInstanceState.getString("query", "");
+    cuisineList.clear();
+    cuisineList.addAll(savedInstanceState.getStringArrayList("cuisineList"));
+    excludedCuisineList.clear();
+    excludedCuisineList.addAll(savedInstanceState.getStringArrayList("excludedCuisineList"));
+    diet = savedInstanceState.getString("diet", "");
+    intolerancesList.clear();
+    intolerancesList.addAll(savedInstanceState.getStringArrayList("intolerancesList"));
+    mealType = savedInstanceState.getString("mealType", "");
+    maxReadyTime = savedInstanceState.getInt("maxReadyTime", 10);
+    maxServings = savedInstanceState.getInt("maxServings", 1);
+    minServings = savedInstanceState.getInt("minServings", 1);
+    numberOfRecipes = savedInstanceState.getInt("numberOfRecipes", 100);
+
+    // Update UI elements with restored values
+    queryInput.setText(query);
+    maxReadyTimeSlider.setValue(maxReadyTime);
+    maxServingsSlider.setValue(maxServings);
+    minServingsSlider.setValue(minServings);
+    numberOfRecipesInput.setText(String.valueOf(numberOfRecipes));
+
+    updateSelectedItemsArray(getListItems(R.id.cuisine_selector), cuisineList,
+        cuisineSelectedItems);
+    cuisineSelector.setText(
+        cuisineList.isEmpty() ? "Select Cuisines" : TextUtils.join(", ", cuisineList));
+    updateSelectedItemsArray(getListItems(R.id.excluded_cuisine_selector), excludedCuisineList,
+        excludedCuisineSelectedItems);
+    excludedCuisineSelector.setText(excludedCuisineList.isEmpty() ? "Exclude Cuisines"
+        : TextUtils.join(", ", excludedCuisineList));
+    updateSelectedItemsArray(getListItems(R.id.intolerance_selector), intolerancesList,
+        intoleranceSelectedItems);
+    intoleranceSelector.setText(intolerancesList.isEmpty() ? "Select Intolerances"
+        : TextUtils.join(", ", intolerancesList));
+
+    if (dietSelector.getAdapter() != null) {
+      int dietPosition = ((ArrayAdapter<String>) dietSelector.getAdapter()).getPosition(
+          diet.isEmpty() ? "Select Diet" : diet);
+      dietSelector.setSelection(dietPosition);
+    }
+    if (mealTypeSelector.getAdapter() != null) {
+      int mealTypePosition = ((ArrayAdapter<String>) mealTypeSelector.getAdapter()).getPosition(
+          mealType.isEmpty() ? "Select Meal Type" : mealType);
+      mealTypeSelector.setSelection(mealTypePosition);
+    }
+  }
+
+  /**
+   * This method validates the user inputs for the recipe search. It checks if the query is empty,
+   * validates the number of recipes, and ensures that the values are within acceptable ranges.
+   *
+   * @return true if all inputs are valid, false otherwise.
+   */
+  private boolean validateInputs() {
+    // Validate query input
+    query = queryInput.getText().toString();
+    if (query.isEmpty()) {
+      queryInput.setError("This field is required");
+      queryInput.requestFocus();
+      return false;
+    }
+
+    // Validate number of recipes
+    String numOfRecipes = numberOfRecipesInput.getText().toString();
+    int num;
+    if (numOfRecipes.isEmpty()) {
+      num = 100;
+    } else {
+      try {
+        num = Integer.parseInt(numOfRecipes);
+      } catch (NumberFormatException e) {
+        numberOfRecipesInput.setError("Enter a valid number");
+        numberOfRecipesInput.requestFocus();
+        return false;
+      }
+      if (num < 1 || num > 100) {
+        numberOfRecipesInput.setError("Enter a value from 1 to 100");
+        numberOfRecipesInput.requestFocus();
+        return false;
+      }
+    }
+    numberOfRecipes = num;
+    return true;
   }
 
   /**
@@ -146,9 +237,9 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
    * @param view The view that was clicked.
    */
   public void searchRecipes(View view) {
-    query = queryInput.getText().toString();
-    String numOfRecipes = numberOfRecipesInput.getText().toString();
-    numberOfRecipes = numOfRecipes.isEmpty() ? 100 : Integer.parseInt(numOfRecipes);
+    if (!validateInputs()) {
+      return;
+    }
 
     // Start the recipe search thread
     ComplexSearchRecipe recipe = new ComplexSearchRecipe(this, searchHandler);
@@ -205,10 +296,9 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
    * @param selectedList The list that will hold the selected items.
    * @param dialogTitle  The title of the dialog.
    */
-  private void setupSelectItems(TextView selector, List<String> selectedList, String dialogTitle) {
+  private void setupSelectItems(TextView selector, List<String> selectedList, String dialogTitle,
+      boolean[] selectedItems) {
     List<String> listOfItems = getListItems(selector.getId());
-    boolean[] selectedItems = new boolean[listOfItems.size()];
-
     selector.setMovementMethod(new ScrollingMovementMethod());
 
     // Set the initial text of the selector
@@ -318,5 +408,20 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
       int intValue = (int) value;
       label.setText(prefix + intValue + suffix);
     });
+  }
+
+  @Override
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString("query", queryInput.getText().toString());
+    outState.putStringArrayList("cuisineList", new ArrayList<>(cuisineList));
+    outState.putStringArrayList("excludedCuisineList", new ArrayList<>(excludedCuisineList));
+    outState.putString("diet", diet);
+    outState.putStringArrayList("intolerancesList", new ArrayList<>(intolerancesList));
+    outState.putString("mealType", mealType);
+    outState.putInt("maxReadyTime", maxReadyTime);
+    outState.putInt("maxServings", maxServings);
+    outState.putInt("minServings", minServings);
+    outState.putInt("numberOfRecipes", numberOfRecipes);
   }
 }

@@ -19,4 +19,5 @@
   <string name="select_cuisine_types">Select Cuisine Types: </string>
   <string name="select_excluded_cuisine_types">Select Excluded Cuisine Types: </string>
   <string name="enter_the_search_query">Enter the search query: </string>
+  <string name="select_intolerances">Select Intolerances: </string>
 </resources>
