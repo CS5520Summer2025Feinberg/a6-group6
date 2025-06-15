@@ -148,7 +148,7 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   public void searchRecipes(View view) {
     query = queryInput.getText().toString();
     String numOfRecipes = numberOfRecipesInput.getText().toString();
-    numberOfRecipes = numOfRecipes.isEmpty() ? 1 : Integer.parseInt(numOfRecipes);
+    numberOfRecipes = numOfRecipes.isEmpty() ? 100 : Integer.parseInt(numOfRecipes);
 
     // Start the recipe search thread
     ComplexSearchRecipe recipe = new ComplexSearchRecipe(this, searchHandler);
