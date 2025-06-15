@@ -272,11 +272,6 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     Intent intent = new Intent(this, RecipeListReportActivity.class);
     intent.putExtra("response_data", response);
 
-    // Optionally, you can also pass the processed responseHolder if it's Serializable/Parcelable
-    if (responseHolder instanceof Serializable) {
-      intent.putExtra("response_holder", (Serializable) responseHolder);
-    }
-
     startActivity(intent);
   }
 
