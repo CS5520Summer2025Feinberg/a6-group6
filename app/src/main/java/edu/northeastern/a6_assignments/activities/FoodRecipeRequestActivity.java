@@ -43,7 +43,10 @@ public class FoodRecipeRequestActivity extends AppCompatActivity {
   private String diet = "";
   private List<String> intolerancesList = new ArrayList<>();
   private String mealType = "";
-  private int numberOfRecipes;
+  private int maxReadyTime = 10;
+  private int maxServings = 1;
+  private int minServings = 1;
+  private int numberOfRecipes = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +74,28 @@ public class FoodRecipeRequestActivity extends AppCompatActivity {
     setupSingleItemSelector(dietSelector, "Select Diet");
     setupSelectItems(intoleranceSelector, intolerancesList, "Select Intolerances");
     setupSingleItemSelector(mealTypeSelector, "Select Meal Type");
-    setupSliderWithLabel(maxReadyTimeSlider, maxReadyTimeText, "Max Ready Time: ", " minutes");
-    setupSliderWithLabel(maxServingsSlider, maxServingsText, "Max Servings: ", "");
-    setupSliderWithLabel(minServingsSlider, minServingsText, "Min Servings: ", "");
+    maxReadyTimeText.setText("Max Ready Time: " + maxReadyTime + " min");
+    maxReadyTimeSlider.addOnChangeListener((s, value, fromUser) -> {
+      maxReadyTime = (int) value;
+      maxReadyTimeText.setText("Max Ready Time: " + maxReadyTime + " min");
+    });
+    maxServingsText.setText("Max Servings: " + maxServings);
+    maxServingsSlider.addOnChangeListener((s, value, fromUser) -> {
+      maxServings = (int) value;
+      maxServingsText.setText("Max Servings: " + maxServings);
+    });
+    minServingsText.setText("Min Servings: " + minServings);
+    minServingsSlider.addOnChangeListener((s, value, fromUser) -> {
+      minServings = (int) value;
+      minServingsText.setText("Min Servings: " + minServings);
+    });
     String numOfRecipes = numberOfRecipesInput.getText().toString();
     numberOfRecipes = numOfRecipes.isEmpty() ? 1 : Integer.parseInt(numOfRecipes);
   }
 
   private void setupSelectItems(TextView selector, List<String> selectedList, String dialogTitle) {
     List<String> listOfItems = new ArrayList<>();
-    if (selector.getId() == R.id.cuisine_selector) {
+    if (selector.getId() == R.id.cuisine_selector || selector.getId() == R.id.excluded_cuisine_selector) {
       for (Cuisine cuisine : Cuisine.values()) {
         listOfItems.add(cuisine.getCuisine());
       }

@@ -9,7 +9,13 @@
   <string name="select_intolerance">Select Intolerances</string>
   <string name="select_meal_type">Select Meal Type</string>
   <string name="max_ready_time">Max Ready Time: </string>
-  <string name="min_servings">Min Servings</string>
-  <string name="max_servings">Max Servings</string>
+  <string name="min_servings">Min Servings: </string>
+  <string name="max_servings">Max Servings: </string>
   <string name="number_of_recipes">Number of Recipes</string>
+  <string name="enter_number_of_recipes">Enter number of recipes: </string>
+  <string name="select_your_meal_type">Select Your Meal Type: </string>
+  <string name="select_your_diet">Select Your Diet: </string>
+  <string name="select_cuisine_types">Select Cuisine Types: </string>
+  <string name="select_excluded_cuisine_types">Select Excluded Cuisine Types: </string>
+  <string name="enter_the_search_query">Enter the search query: </string>
 </resources>
