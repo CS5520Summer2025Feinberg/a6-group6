@@ -30,50 +30,55 @@ import edu.northeastern.a6_assignments.helpers.ComplexSearchPOJOResponseHandlers
 import edu.northeastern.a6_assignments.pojo.ComplexSearchPOJORequest;
 import edu.northeastern.a6_assignments.services.ComplexSearchRecipe;
 
-public class FoodRecipeRequestActivity extends AppCompatActivity implements ComplexSearchRecipe.ComplexSearchCallBack {
-    private Thread searchRecipes;
-    EditText queryInput;
-    TextView cuisineSelector;
-    TextView excludedCuisineSelector;
-    Spinner dietSelector;
-    TextView intoleranceSelector;
-    Spinner mealTypeSelector;
-    TextView maxReadyTimeText;
-    Slider maxReadyTimeSlider;
-    TextView maxServingsText;
-    Slider maxServingsSlider;
-    TextView minServingsText;
-    Slider minServingsSlider;
-    EditText numberOfRecipesInput;
-    private String query = "";
-    private List<String> cuisineList = new ArrayList<>();
-    private List<String> excludedCuisineList = new ArrayList<>();
-    private String diet = "";
-    private List<String> intolerancesList = new ArrayList<>();
-    private String mealType = "";
+public class FoodRecipeRequestActivity extends AppCompatActivity implements
+    ComplexSearchRecipe.ComplexSearchCallBack {
 
-    private List<ComplexSearchResponseElement> responseHolder;
-    private int numberOfRecipes;
-    private Handler searchHandler = new Handler();
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_food_recipe_request);
+  private Thread searchRecipes;
+  EditText queryInput;
+  TextView cuisineSelector;
+  TextView excludedCuisineSelector;
+  Spinner dietSelector;
+  TextView intoleranceSelector;
+  Spinner mealTypeSelector;
+  TextView maxReadyTimeText;
+  Slider maxReadyTimeSlider;
+  TextView maxServingsText;
+  Slider maxServingsSlider;
+  TextView minServingsText;
+  Slider minServingsSlider;
+  EditText numberOfRecipesInput;
+  private String query = "";
+  private List<String> cuisineList = new ArrayList<>();
+  private List<String> excludedCuisineList = new ArrayList<>();
+  private String diet = "";
+  private List<String> intolerancesList = new ArrayList<>();
+  private String mealType = "";
+  private int maxReadyTime = 10;
+  private int maxServings = 1;
+  private int minServings = 1;
+  private int numberOfRecipes = 1;
+  private List<ComplexSearchResponseElement> responseHolder;
+  private Handler searchHandler = new Handler();
 
-        queryInput = findViewById(R.id.query);
-        cuisineSelector = findViewById(R.id.cuisine_selector);
-        excludedCuisineSelector = findViewById(R.id.excluded_cuisine_selector);
-        intoleranceSelector = findViewById(R.id.intolerance_selector);
-        dietSelector = findViewById(R.id.diet_selector);
-        mealTypeSelector = findViewById(R.id.meal_type_selector);
-        maxReadyTimeText = findViewById(R.id.max_ready_time);
-        maxReadyTimeSlider = findViewById(R.id.max_ready_time_slider);
-        maxServingsText = findViewById(R.id.max_servings_label);
-        maxServingsSlider = findViewById(R.id.max_servings_slider);
-        minServingsText = findViewById(R.id.min_servings_label);
-        minServingsSlider = findViewById(R.id.min_servings_slider);
-        numberOfRecipesInput = findViewById(R.id.number_of_recipes);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    EdgeToEdge.enable(this);
+    setContentView(R.layout.activity_food_recipe_request);
+
+    queryInput = findViewById(R.id.query);
+    cuisineSelector = findViewById(R.id.cuisine_selector);
+    excludedCuisineSelector = findViewById(R.id.excluded_cuisine_selector);
+    intoleranceSelector = findViewById(R.id.intolerance_selector);
+    dietSelector = findViewById(R.id.diet_selector);
+    mealTypeSelector = findViewById(R.id.meal_type_selector);
+    maxReadyTimeText = findViewById(R.id.max_ready_time);
+    maxReadyTimeSlider = findViewById(R.id.max_ready_time_slider);
+    maxServingsText = findViewById(R.id.max_servings_label);
+    maxServingsSlider = findViewById(R.id.max_servings_slider);
+    minServingsText = findViewById(R.id.min_servings_label);
+    minServingsSlider = findViewById(R.id.min_servings_slider);
+    numberOfRecipesInput = findViewById(R.id.number_of_recipes);
 
     query = queryInput.getText().toString();
     setupSelectItems(cuisineSelector, cuisineList, "Select Cuisines");
@@ -100,131 +105,126 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements Comp
     numberOfRecipes = numOfRecipes.isEmpty() ? 1 : Integer.parseInt(numOfRecipes);
   }
 
-    public void searchRecipes(View view) {
-        ComplexSearchRecipe recipe = new ComplexSearchRecipe(this,searchHandler);
-        searchRecipes = new Thread(recipe);
-        searchRecipes.start();
+  public void searchRecipes(View view) {
+    ComplexSearchRecipe recipe = new ComplexSearchRecipe(this, searchHandler);
+    searchRecipes = new Thread(recipe);
+    searchRecipes.start();
+  }
+
+  @Override
+  public String getRequestParameters() {
+    return new ComplexSearchPOJORequest
+        .ComplexSearchPOJORequestBuilder(query)
+        .setCuisine(cuisineList)
+        .setExcludeCuisine(excludedCuisineList)
+        .setDiet(diet)
+        .setIntolerance(intolerancesList)
+        .setMealTypes(mealType)
+        .setMaxReadyTime(maxReadyTime)
+        .setMaxServings(maxServings)
+        .setMinServings(minServings)
+        .setNumberOfRecipes(numberOfRecipes)
+        .build()
+        .getRequestParameters();
+  }
+
+  @Override
+  public void createObjectFromResponse(String response) {
+    responseHolder =
+        ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(response);
+  }
+
+  private void setupSelectItems(TextView selector, List<String> selectedList, String dialogTitle) {
+    List<String> listOfItems = new ArrayList<>();
+    if (selector.getId() == R.id.cuisine_selector || selector.getId() == R.id.excluded_cuisine_selector) {
+      for (Cuisine cuisine : Cuisine.values()) {
+        listOfItems.add(cuisine.getValue());
+      }
+    } else {
+      for (Intolerance cuisine : Intolerance.values()) {
+        listOfItems.add(cuisine.getValue());
+      }
     }
 
-    @Override
-    public String getRequestParameters() {
-        return new ComplexSearchPOJORequest
-                .ComplexSearchPOJORequestBuilder(query)
-                .setCuisine(cuisineList)
-                .setDiet(diet)
-                .setIntolerance(intolerancesList)
-                .setExcludeCuisine(excludedCuisineList)
-                .setNumberOfRecipes(numberOfRecipes)
-                .build()
-                .getRequestParameters();
-    }
+    boolean[] selectedItems = new boolean[listOfItems.size()];
 
-    @Override
-    public void createObjectFromResponse(String response) {
-        responseHolder =
-                ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(response);
-    }
+    selector.setMovementMethod(new ScrollingMovementMethod());
+    selector.setOnClickListener(v -> {
+      boolean[] tempSelectedItems = selectedItems.clone();
+      List<String> tempSelected = new ArrayList<>(selectedList);
 
-    private void setupSelectItems(TextView selector, List<String> selectedList, String dialogTitle) {
-        List<String> listOfItems = new ArrayList<>();
-        if (selector.getId() == R.id.cuisine_selector) {
-            for (Cuisine cuisine : Cuisine.values()) {
-                listOfItems.add(cuisine.getValue());
+      AlertDialog.Builder builder = new AlertDialog.Builder(FoodRecipeRequestActivity.this);
+      builder.setTitle(dialogTitle);
+
+      builder.setMultiChoiceItems(listOfItems.toArray(new String[0]), tempSelectedItems,
+          (dialog, indexSelected, isChecked) -> {
+            String item = listOfItems.get(indexSelected);
+            if (isChecked) {
+              if (!tempSelected.contains(item)) {
+                tempSelected.add(item);
+              }
+            } else {
+              tempSelected.remove(item);
             }
-        } else {
-            for (Intolerance cuisine : Intolerance.values()) {
-                listOfItems.add(cuisine.getValue());
-            }
-        }
+          });
 
-        boolean[] selectedItems = new boolean[listOfItems.size()];
+      builder.setPositiveButton("OK", (dialog, id) -> {
+        System.arraycopy(tempSelectedItems, 0, selectedItems, 0, tempSelectedItems.length);
+        selectedList.clear();
+        selectedList.addAll(tempSelected);
 
-        selector.setMovementMethod(new ScrollingMovementMethod());
-        selector.setOnClickListener(v -> {
-            boolean[] tempSelectedItems = selectedItems.clone();
-            List<String> tempSelected = new ArrayList<>(selectedList);
+        selector.setText(selectedList.isEmpty()
+            ? dialogTitle
+            : TextUtils.join(", ", selectedList));
+      });
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(FoodRecipeRequestActivity.this);
-            builder.setTitle(dialogTitle);
+      builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
+      builder.show();
+    });
+  }
 
-            builder.setMultiChoiceItems(listOfItems.toArray(new String[0]), tempSelectedItems,
-                    (dialog, indexSelected, isChecked) -> {
-                        String item = listOfItems.get(indexSelected);
-                        if (isChecked) {
-                            if (!tempSelected.contains(item)) {
-                                tempSelected.add(item);
-                            }
-                        } else {
-                            tempSelected.remove(item);
-                        }
-                    });
+  private void setupSingleItemSelector(Spinner selector, String dialogTitle) {
+    List<String> listOfItems = new ArrayList<>();
+    listOfItems.add(dialogTitle);
 
-            builder.setPositiveButton("OK", (dialog, id) -> {
-                System.arraycopy(tempSelectedItems, 0, selectedItems, 0, tempSelectedItems.length);
-                selectedList.clear();
-                selectedList.addAll(tempSelected);
-
-                selector.setText(selectedList.isEmpty()
-                        ? dialogTitle
-                        : TextUtils.join(", ", selectedList));
-            });
-
-            builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
-            builder.show();
-        });
+    if (selector.getId() == R.id.diet_selector) {
+      for (Diet diet : Diet.values()) {
+        listOfItems.add(diet.getValue());
+      }
+    } else if (selector.getId() == R.id.meal_type_selector) {
+      for (MealTypes mealType : MealTypes.values()) {
+        listOfItems.add(mealType.getValue());
+      }
     }
 
-    private void setupSingleItemSelector(Spinner selector, String dialogTitle) {
-        List<String> listOfItems = new ArrayList<>();
-        listOfItems.add(dialogTitle);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        this,
+        android.R.layout.simple_spinner_item,
+        listOfItems
+    );
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    selector.setAdapter(adapter);
 
+    selector.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view,
+          int position, long id) {
+        String selected = listOfItems.get(position);
         if (selector.getId() == R.id.diet_selector) {
-            for (Diet diet : Diet.values()) {
-                listOfItems.add(diet.getValue());
-            }
+          FoodRecipeRequestActivity.this.diet = selected.equals(dialogTitle) ? "" : selected;
         } else if (selector.getId() == R.id.meal_type_selector) {
-            for (MealTypes mealType : MealTypes.values()) {
-                listOfItems.add(mealType.getValue());
-            }
+          FoodRecipeRequestActivity.this.mealType = selected.equals(dialogTitle) ? "" : selected;
         }
+      }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listOfItems
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selector.setAdapter(adapter);
-
-        selector.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
-                String selected = listOfItems.get(position);
-                if (selector.getId() == R.id.diet_selector) {
-                    FoodRecipeRequestActivity.this.diet = selected.equals(dialogTitle) ? "" : selected;
-                } else if (selector.getId() == R.id.meal_type_selector) {
-                    FoodRecipeRequestActivity.this.mealType = selected.equals(dialogTitle) ? "" : selected;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {
-                if (selector.getId() == R.id.diet_selector) {
-                    FoodRecipeRequestActivity.this.diet = "";
-                } else if (selector.getId() == R.id.meal_type_selector) {
-                    FoodRecipeRequestActivity.this.mealType = "";
-                }
-            }
-        });
-    }
-
-    private void setupSliderWithLabel(Slider slider, TextView label, String prefix, String suffix) {
-        int initialValue = (int) slider.getValue();
-        label.setText(prefix + initialValue + suffix);
-
-        slider.addOnChangeListener((s, value, fromUser) -> {
-            int val = (int) value;
-            label.setText(prefix + val + suffix);
-        });
-    }
+      @Override
+      public void onNothingSelected(android.widget.AdapterView<?> parent) {
+        if (selector.getId() == R.id.diet_selector) {
+          FoodRecipeRequestActivity.this.diet = "";
+        } else if (selector.getId() == R.id.meal_type_selector) {
+          FoodRecipeRequestActivity.this.mealType = "";
+        }
+      }
+    });
+  }
 }
