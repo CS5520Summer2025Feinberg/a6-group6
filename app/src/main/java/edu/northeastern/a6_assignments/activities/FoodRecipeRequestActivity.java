@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +77,9 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   private List<ComplexSearchResponseElement> responseHolder;
   private final Handler searchHandler = new Handler();
 
+  private ProgressBar progressBar;
+  private View progressOverlay;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -116,6 +120,9 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     minServingsSlider.addOnChangeListener((s, value, fromUser) -> minServings = (int) value);
     String numOfRecipes = numberOfRecipesInput.getText().toString();
     numberOfRecipes = numOfRecipes.isEmpty() ? 1 : Integer.parseInt(numOfRecipes);
+
+    progressBar = findViewById(R.id.progress_bar);
+    progressOverlay = findViewById(R.id.progress_overlay);
 
     // Restore instance state if available
     restoreInstanceState(savedInstanceState);
@@ -243,6 +250,8 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
       return;
     }
 
+    showProgress(true);
+
     // Start the recipe search thread
     ComplexSearchRecipe recipe = new ComplexSearchRecipe(this, searchHandler);
     searchRecipes = new Thread(recipe);
@@ -268,12 +277,28 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
 
   @Override
   public void createObjectFromResponse(String response) {
+    showProgress(false);
     responseHolder = ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(response);
     Intent intent = new Intent(this, RecipeListReportActivity.class);
     intent.putExtra("response_data", response);
 
     startActivity(intent);
   }
+
+
+  /**
+   * This method shows/hides the progress bar.
+   * @param show The boolean flag to show or hide the progress bar.
+   */
+  private void showProgress(boolean show) {
+    if (progressBar != null) {
+      progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+    if (progressOverlay != null) {
+      progressOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+  }
+
 
   /**
    * This is a helper method that retrieves a list of items based on the selector ID.
