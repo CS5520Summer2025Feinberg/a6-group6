@@ -1,6 +1,7 @@
 package edu.northeastern.a6_assignments.activities;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -8,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
@@ -29,6 +31,7 @@ import edu.northeastern.a6_assignments.pojo.ComplexSearchPOJORequest;
 import edu.northeastern.a6_assignments.helpers.ComplexSearchPOJOResponseHandlers;
 import edu.northeastern.a6_assignments.services.ComplexSearchRecipe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +79,9 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   private List<ComplexSearchResponseElement> responseHolder;
   private final Handler searchHandler = new Handler();
 
+  private ProgressBar progressBar;
+  private View progressOverlay;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -119,6 +125,9 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     maxServingsSlider.addOnChangeListener((s, value, fromUser) -> maxServings = (int) value);
     setupSlider(minServingsSlider, minServingsText, "Min Servings: ", "", minServings);
     minServingsSlider.addOnChangeListener((s, value, fromUser) -> minServings = (int) value);
+
+    progressBar = findViewById(R.id.progress_bar);
+    progressOverlay = findViewById(R.id.progress_overlay);
 
     // Restore instance state if available
     restoreInstanceState(savedInstanceState);
@@ -244,6 +253,8 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
       return;
     }
 
+    showProgress(true);
+
     // Start the recipe search thread
     ComplexSearchRecipe recipe = new ComplexSearchRecipe(this, searchHandler);
     searchRecipes = new Thread(recipe);
@@ -269,8 +280,28 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
 
   @Override
   public void createObjectFromResponse(String response) {
+    showProgress(false);
     responseHolder = ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(response);
+    Intent intent = new Intent(this, RecipeListReportActivity.class);
+    intent.putExtra("response_data", response);
+
+    startActivity(intent);
   }
+
+
+  /**
+   * This method shows/hides the progress bar.
+   * @param show The boolean flag to show or hide the progress bar.
+   */
+  private void showProgress(boolean show) {
+    if (progressBar != null) {
+      progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+    if (progressOverlay != null) {
+      progressOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+  }
+
 
   /**
    * This is a helper method that retrieves a list of items based on the selector ID.

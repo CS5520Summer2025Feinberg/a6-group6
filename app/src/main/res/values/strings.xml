@@ -21,4 +21,8 @@
   <string name="enter_the_search_query">Enter the search query: </string>
   <string name="select_intolerances">Select Intolerances: </string>
   <string name="fetching_recipes">Fetching recipes...</string>
+  <string name="recipe_title">Recipe Title</string>
+  <string name="recipe_image">Recipe Image</string>
+  <string name="recipe_search_results">Recipe Search Results</string>
+  <string name="found_recipes_for_your_search">Found recipes for your search</string>
 </resources>
