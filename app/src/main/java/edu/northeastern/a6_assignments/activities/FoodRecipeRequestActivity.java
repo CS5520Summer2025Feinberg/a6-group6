@@ -10,11 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.slider.Slider;
 
 import edu.northeastern.a6_assignments.R;
@@ -53,7 +55,7 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   TextView minServingsText;
   Slider minServingsSlider;
   EditText numberOfRecipesInput;
-  private Toast numberRangeToast;
+  private AlertDialog loadingDialog;
 
   // Variables to hold search parameters
   private String query = "";
@@ -65,10 +67,10 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   private final List<String> intolerancesList = new ArrayList<>();
   private boolean[] intoleranceSelectedItems;
   private String mealType = "";
-  private int maxReadyTime = 10;
-  private int maxServings = 1;
-  private int minServings = 1;
-  private int numberOfRecipes = 100;
+  private int maxReadyTime;
+  private int maxServings;
+  private int minServings;
+  private int numberOfRecipes;
 
   // Holder for the search response
   private List<ComplexSearchResponseElement> responseHolder;
@@ -79,6 +81,11 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     super.onCreate(savedInstanceState);
     EdgeToEdge.enable(this);
     setContentView(R.layout.activity_food_recipe_request);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+      Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+      return insets;
+    });
 
     // Initialize UI elements
     queryInput = findViewById(R.id.query);
@@ -112,8 +119,6 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     maxServingsSlider.addOnChangeListener((s, value, fromUser) -> maxServings = (int) value);
     setupSlider(minServingsSlider, minServingsText, "Min Servings: ", "", minServings);
     minServingsSlider.addOnChangeListener((s, value, fromUser) -> minServings = (int) value);
-    String numOfRecipes = numberOfRecipesInput.getText().toString();
-    numberOfRecipes = numOfRecipes.isEmpty() ? 1 : Integer.parseInt(numOfRecipes);
 
     // Restore instance state if available
     restoreInstanceState(savedInstanceState);
@@ -155,10 +160,10 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     intolerancesList.clear();
     intolerancesList.addAll(savedInstanceState.getStringArrayList("intolerancesList"));
     mealType = savedInstanceState.getString("mealType", "");
-    maxReadyTime = savedInstanceState.getInt("maxReadyTime", 10);
-    maxServings = savedInstanceState.getInt("maxServings", 1);
-    minServings = savedInstanceState.getInt("minServings", 1);
-    numberOfRecipes = savedInstanceState.getInt("numberOfRecipes", 100);
+    maxReadyTime = savedInstanceState.getInt("maxReadyTime");
+    maxServings = savedInstanceState.getInt("maxServings");
+    minServings = savedInstanceState.getInt("minServings");
+    numberOfRecipes = savedInstanceState.getInt("numberOfRecipes");
 
     // Update UI elements with restored values
     queryInput.setText(query);
@@ -210,9 +215,7 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     // Validate number of recipes
     String numOfRecipes = numberOfRecipesInput.getText().toString();
     int num;
-    if (numOfRecipes.isEmpty()) {
-      num = 100;
-    } else {
+    if (!numOfRecipes.isEmpty()) {
       try {
         num = Integer.parseInt(numOfRecipes);
       } catch (NumberFormatException e) {
@@ -225,8 +228,8 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
         numberOfRecipesInput.requestFocus();
         return false;
       }
+      numberOfRecipes = num;
     }
-    numberOfRecipes = num;
     return true;
   }
 
@@ -401,12 +404,11 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
    * @param suffix       The suffix for the label text.
    * @param initialValue The initial value for the slider and label.
    */
-  private void setupSlider(Slider slider, TextView label, String prefix, String suffix,
-      int initialValue) {
-    label.setText(prefix + initialValue + suffix);
+  private void setupSlider(Slider slider, TextView label, String prefix, String suffix, int initialValue) {
+    label.setText(prefix + (initialValue == 0 ? "Optional" : initialValue + suffix));
     slider.addOnChangeListener((s, value, fromUser) -> {
       int intValue = (int) value;
-      label.setText(prefix + intValue + suffix);
+      label.setText(prefix + (intValue == 0 ? "Optional" : intValue + suffix));
     });
   }
 

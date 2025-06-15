@@ -1,23 +1,24 @@
 <resources>
-  <string name="app_name">A6-Assignments</string>
+  <string name="app_name">Group-6</string>
   <string name="find_recipes">Find Recipes</string>
   <string name="firebase_assignment">Firebase Assignment</string>
   <string name="group_6">Group - 6</string>
-  <string name="search_query">Search Query</string>
-  <string name="select_cuisines">Select Cuisines</string>
-  <string name="select_excluded_cuisines">Select Excluded Cuisine</string>
+  <string name="search_query">What are you looking for?</string>
+  <string name="select_cuisines">Select Cuisines you want to include...</string>
+  <string name="select_excluded_cuisines">Select Cuisines you want to exclude...</string>
   <string name="select_diet">Select Diet</string>
-  <string name="select_intolerance">Select Intolerances</string>
+  <string name="select_intolerance">Select ingredients you cannot tolerate...</string>
   <string name="select_meal_type">Select Meal Type</string>
   <string name="max_ready_time">Max Ready Time: </string>
   <string name="min_servings">Min Servings: </string>
   <string name="max_servings">Max Servings: </string>
-  <string name="number_of_recipes">Number of Recipes</string>
-  <string name="enter_number_of_recipes">Enter number of recipes: </string>
+  <string name="number_of_recipes">No. of recipes you want to see</string>
+  <string name="enter_number_of_recipes">Number of recipes: </string>
   <string name="select_your_meal_type">Select Your Meal Type: </string>
   <string name="select_your_diet">Select Your Diet: </string>
   <string name="select_cuisine_types">Select Cuisine Types: </string>
   <string name="select_excluded_cuisine_types">Select Excluded Cuisine Types: </string>
   <string name="enter_the_search_query">Enter the search query: </string>
   <string name="select_intolerances">Select Intolerances: </string>
+  <string name="fetching_recipes">Fetching recipes...</string>
 </resources>
