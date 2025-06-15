@@ -1,6 +1,7 @@
 package edu.northeastern.a6_assignments.activities;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -27,6 +28,7 @@ import edu.northeastern.a6_assignments.pojo.ComplexSearchPOJORequest;
 import edu.northeastern.a6_assignments.helpers.ComplexSearchPOJOResponseHandlers;
 import edu.northeastern.a6_assignments.services.ComplexSearchRecipe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -267,6 +269,15 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   @Override
   public void createObjectFromResponse(String response) {
     responseHolder = ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(response);
+    Intent intent = new Intent(this, RecipeListReportActivity.class);
+    intent.putExtra("response_data", response);
+
+    // Optionally, you can also pass the processed responseHolder if it's Serializable/Parcelable
+    if (responseHolder instanceof Serializable) {
+      intent.putExtra("response_holder", (Serializable) responseHolder);
+    }
+
+    startActivity(intent);
   }
 
   /**

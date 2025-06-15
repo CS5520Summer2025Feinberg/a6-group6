@@ -15,6 +15,9 @@
         android:theme="@style/Theme.A6Assignments"
         tools:targetApi="31">
         <activity
+            android:name=".activities.RecipeListReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -25,8 +28,7 @@
         </activity>
         <activity
             android:name=".activities.FoodRecipeRequestActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

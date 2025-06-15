@@ -69,7 +69,7 @@ public class ComplexSearchRecipe implements Runnable {
 
             String jsonResponse = result.toString();
             apiCallHandler.post(()-> {
-                    searchCallBack.createObjectFromResponse(jsonResponse);
+                searchCallBack.createObjectFromResponse(jsonResponse);
             });
 
             // Close the resources
