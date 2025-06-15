@@ -22,7 +22,7 @@ public enum MealTypes {
     this.mealType = mealType;
   }
 
-  public String getMealType() {
+  public String getValue() {
     return mealType;
   }
 }

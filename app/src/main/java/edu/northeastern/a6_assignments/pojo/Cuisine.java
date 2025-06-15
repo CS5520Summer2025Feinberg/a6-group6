@@ -1,32 +1,32 @@
 package edu.northeastern.a6_assignments.pojo;
 
 public enum Cuisine {
-    AFRICAN("African"),
-    ASIAN("Asian"),
-    AMERICAN("American"),
-    BRITISH("British"),
-    CAJUN("Cajun"),
-    CARIBBEAN("Caribbean"),
-    CHINESE("Chinese"),
-    EASTERN_EUROPEAN("Eastern European"),
-    EUROPEAN_FRENCH("European French"),
-    GERMAN("German"),
-    GREEK("Greek"),
-    INDIAN("Indian"),
-    IRISH("Irish"),
-    ITALIAN("Italian"),
-    JAPANESE("Japanese"),
-    JEWISH("Jewish"),
-    KOREAN("Korean"),
-    LATIN_AMERICAN("Latin American"),
-    MEDITERRANEAN("Mediterranean"),
-    MEXICAN("Mexican"),
-    MIDDLE_EASTERN("Middle Eastern"),
-    NORDIC("Nordic"),
-    SOUTHERN("Southern"),
-    SPANISH("Spanish"),
-    THAI("Thai"),
-    VIETNAMESE("Vietnamese");
+    AFRICAN("african"),
+    ASIAN("asian"),
+    AMERICAN("american"),
+    BRITISH("british"),
+    CAJUN("cajun"),
+    CARIBBEAN("caribbean"),
+    CHINESE("chinese"),
+    EASTERN_EUROPEAN("eastern-european"),
+    EUROPEAN_FRENCH("european-french"),
+    GERMAN("german"),
+    GREEK("greek"),
+    INDIAN("indian"),
+    IRISH("irish"),
+    ITALIAN("italian"),
+    JAPANESE("japanese"),
+    JEWISH("jewish"),
+    KOREAN("korean"),
+    LATIN_AMERICAN("latin-american"),
+    MEDITERRANEAN("mediterranean"),
+    MEXICAN("mexican"),
+    MIDDLE_EASTERN("middle-eastern"),
+    NORDIC("nordic"),
+    SOUTHERN("southern"),
+    SPANISH("spanish"),
+    THAI("thai"),
+    VIETNAMESE("vietnamese");
 
     private final String cuisine;
 
@@ -34,7 +34,7 @@ public enum Cuisine {
         this.cuisine = cuisine;
     }
 
-    public String getCuisine() {
+    public String getValue() {
         return cuisine;
     }
 }
