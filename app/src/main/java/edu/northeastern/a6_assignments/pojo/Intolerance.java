@@ -20,7 +20,7 @@ public enum Intolerance {
     this.intolerance = intolerance;
   }
 
-  public String getIntolerance() {
+  public String getValue() {
     return intolerance;
   }
 }

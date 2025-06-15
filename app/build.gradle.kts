@@ -14,6 +14,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        val apiKey = project.findProperty("SPOONACULAR_API_KEY") as String? ?: "default_key"
+        buildConfigField("String", "SPOONACULAR_API_KEY", "\"$apiKey\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
