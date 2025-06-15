@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="No Recipes Found"
+            android:text="@string/no_recipes_found"
             android:textColor="@android:color/darker_gray"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Try adjusting your search criteria\nand search again"
+            android:text="@string/try_adjusting_your_search_criteria_nand_search_again"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
@@ -131,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="32dp"
-            android:text="Search Again" />
+            android:text="@string/search_again" />
 
     </LinearLayout>
 

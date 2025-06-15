@@ -35,7 +35,7 @@ public class ComplexSearchPOJOResponseHandlers {
         ele.setImage(resultEle.get("image").toString());
         ele.setTitle(resultEle.get("title").toString());
         ele.setImageType(resultEle.get("imageType")
-            .toString()); // Can convert to enum but not sure type of imageType as couldn't find swagger
+            .toString());
         listResponse.add(ele);
       }
       return listResponse;

@@ -20,9 +20,11 @@
   <string name="select_excluded_cuisine_types">Select Excluded Cuisine Types: </string>
   <string name="enter_the_search_query">Enter the search query: </string>
   <string name="select_intolerances">Select Intolerances: </string>
-  <string name="fetching_recipes">Fetching recipes...</string>
   <string name="recipe_title">Recipe Title</string>
   <string name="recipe_image">Recipe Image</string>
   <string name="recipe_search_results">Recipe Search Results</string>
   <string name="found_recipes_for_your_search">Found recipes for your search</string>
+  <string name="no_recipes_found">No Recipes Found</string>
+  <string name="try_adjusting_your_search_criteria_nand_search_again">Try adjusting your search criteria\nand search again</string>
+  <string name="search_again">Search Again</string>
 </resources>

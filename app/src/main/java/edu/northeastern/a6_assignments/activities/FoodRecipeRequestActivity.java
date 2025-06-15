@@ -31,7 +31,6 @@ import edu.northeastern.a6_assignments.pojo.ComplexSearchPOJORequest;
 import edu.northeastern.a6_assignments.helpers.ComplexSearchPOJOResponseHandlers;
 import edu.northeastern.a6_assignments.services.ComplexSearchRecipe;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +57,6 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   TextView minServingsText;
   Slider minServingsSlider;
   EditText numberOfRecipesInput;
-  private AlertDialog loadingDialog;
 
   // Variables to hold search parameters
   private String query = "";
@@ -66,19 +64,15 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   private boolean[] cuisineSelectedItems;
   private final List<String> excludedCuisineList = new ArrayList<>();
   private boolean[] excludedCuisineSelectedItems;
-  private String diet = "";
+  private String diet;
   private final List<String> intolerancesList = new ArrayList<>();
   private boolean[] intoleranceSelectedItems;
-  private String mealType = "";
+  private String mealType;
   private int maxReadyTime;
   private int maxServings;
   private int minServings;
   private int numberOfRecipes;
-
-  // Holder for the search response
-  private List<ComplexSearchResponseElement> responseHolder;
   private final Handler searchHandler = new Handler();
-
   private ProgressBar progressBar;
   private View progressOverlay;
 
@@ -126,6 +120,7 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
     setupSlider(minServingsSlider, minServingsText, "Min Servings: ", "", minServings);
     minServingsSlider.addOnChangeListener((s, value, fromUser) -> minServings = (int) value);
 
+    // Progress bar and overlay for search operations
     progressBar = findViewById(R.id.progress_bar);
     progressOverlay = findViewById(R.id.progress_overlay);
 
@@ -238,6 +233,8 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
         return false;
       }
       numberOfRecipes = num;
+    } else {
+      numberOfRecipes = 100;
     }
     return true;
   }
@@ -281,16 +278,18 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
   @Override
   public void createObjectFromResponse(String response) {
     showProgress(false);
-    responseHolder = ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(response);
+    // Holder for the search response
+    List<ComplexSearchResponseElement> responseHolder = ComplexSearchPOJOResponseHandlers.handleComplexSearchResponse(
+        response);
     Intent intent = new Intent(this, RecipeListReportActivity.class);
     intent.putExtra("response_data", response);
-
     startActivity(intent);
   }
 
 
   /**
    * This method shows/hides the progress bar.
+   *
    * @param show The boolean flag to show or hide the progress bar.
    */
   private void showProgress(boolean show) {
@@ -435,7 +434,8 @@ public class FoodRecipeRequestActivity extends AppCompatActivity implements
    * @param suffix       The suffix for the label text.
    * @param initialValue The initial value for the slider and label.
    */
-  private void setupSlider(Slider slider, TextView label, String prefix, String suffix, int initialValue) {
+  private void setupSlider(Slider slider, TextView label, String prefix, String suffix,
+      int initialValue) {
     label.setText(prefix + (initialValue == 0 ? "Optional" : initialValue + suffix));
     slider.addOnChangeListener((s, value, fromUser) -> {
       int intValue = (int) value;
