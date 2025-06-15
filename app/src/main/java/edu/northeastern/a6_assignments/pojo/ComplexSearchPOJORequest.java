@@ -182,7 +182,6 @@ public class ComplexSearchPOJORequest {
     public ComplexSearchPOJORequestBuilder setExcludeCuisine(List<String> excludeCuisine) {
       List<Cuisine> excluCus = new ArrayList<>();
       if (!excludeCuisine.isEmpty()) {
-        ;
         for (String cui : excludeCuisine) {
           excluCus.add(Cuisine.fromValue(cui));
         }
