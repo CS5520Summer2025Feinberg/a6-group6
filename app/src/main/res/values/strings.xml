@@ -44,4 +44,5 @@
   <string name="send_sticker">Send Sticker</string>
   <string name="sticker_received_history">Sticker Received History</string>
   <string name="sticker_sent_history">Sticker Sent History</string>
+  <string name="select_user_prompt">Choose a user to send sticker to</string>
 </resources>
