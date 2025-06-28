@@ -2,42 +2,54 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools">
 
-  <application
-    android:allowBackup="true"
-    android:dataExtractionRules="@xml/data_extraction_rules"
-    android:fullBackupContent="@xml/backup_rules"
-    android:icon="@mipmap/ic_launcher_vsv"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_vsv_round"
-    android:supportsRtl="true"
-    android:theme="@style/Theme.A6Assignments"
-    tools:targetApi="31">
-    <activity
-      android:exported="false"
-      android:name=".activities.SignInActivity" />
-    <activity
-        android:exported="false"
-        android:name=".activities.SignUpActivity" />
-    <activity
-      android:exported="false"
-      android:name=".activities.AboutGroupActivity" />
-    <activity
-      android:exported="false"
-      android:name=".activities.RecipeListReportActivity" />
-    <activity
-      android:exported="false"
-      android:name=".activities.FoodRecipeRequestActivity" />
-    <activity
-      android:exported="true"
-      android:name=".activities.MainActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
+    <application
+      android:allowBackup="true"
+      android:dataExtractionRules="@xml/data_extraction_rules"
+      android:fullBackupContent="@xml/backup_rules"
+      android:icon="@mipmap/ic_launcher_vsv"
+      android:label="@string/app_name"
+      android:roundIcon="@mipmap/ic_launcher_vsv_round"
+      android:supportsRtl="true"
+      android:theme="@style/Theme.A6Assignments"
+      tools:targetApi="31">
+        <activity
+          android:exported="false"
+          android:name=".activities.StickerSentActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.StickerReceivedActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.SendStickerActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.StickerAppHomeActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.SignInActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.SignUpActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.AboutGroupActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.RecipeListReportActivity" />
+        <activity
+          android:exported="false"
+          android:name=".activities.FoodRecipeRequestActivity" />
+        <activity
+          android:exported="true"
+          android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
-  </application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
-  <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

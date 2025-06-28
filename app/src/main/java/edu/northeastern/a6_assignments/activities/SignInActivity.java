@@ -1,5 +1,6 @@
 package edu.northeastern.a6_assignments.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.widget.Button;
@@ -45,7 +46,11 @@ public class SignInActivity extends AppCompatActivity {
       if (username.isEmpty()) {
         usernameField.setError("Username cannot be empty");
       } else {
-        // Trigger the home page activity
+        // Logic to verify the valid username
+
+        // Trigger the next activity
+        Intent intent = new Intent(SignInActivity.this, StickerAppHomeActivity.class);
+        startActivity(intent);
       }
     });
   }
