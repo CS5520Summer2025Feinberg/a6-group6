@@ -15,7 +15,7 @@ import edu.northeastern.a6_assignments.R;
  * SignIn is an Android activity that handles user sign-in functionality. It sets up the user
  * interface and applies edge-to-edge display settings.
  */
-public class SignIn extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
   // UI elements for the sign-in activity
   private EditText usernameField;

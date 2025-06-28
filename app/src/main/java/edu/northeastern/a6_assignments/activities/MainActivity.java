@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
    * @param view The view that was clicked.
    */
   public void onAboutGroupClick(View view) {
-    Intent intent = new Intent(MainActivity.this, AboutGroup.class);
+    Intent intent = new Intent(MainActivity.this, AboutGroupActivity.class);
     startActivity(intent);
   }
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
    * @param view The view that was clicked.
    */
   public void onFirebaseAssignmentClick(View view) {
-    Intent intent = new Intent(MainActivity.this, SignIn.class);
+    Intent intent = new Intent(MainActivity.this, SignInActivity.class);
     startActivity(intent);
   }
 }

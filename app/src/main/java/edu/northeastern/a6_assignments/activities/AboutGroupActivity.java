@@ -13,7 +13,7 @@ import edu.northeastern.a6_assignments.R;
  * AboutGroup is an Android activity that displays information about the development group.
  * It sets up the user interface and handles window insets for proper layout.
  */
-public class AboutGroup extends AppCompatActivity {
+public class AboutGroupActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
