@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".activities.AboutGroup">
+
+  <!-- LinearLayout to hold group members information -->
+  <LinearLayout
+    android:id="@+id/groupMembersLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <!-- TextView for group members title -->
+    <TextView
+      android:id="@+id/textView"
+      android:textStyle="bold"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/group_members"
+      android:textSize="30sp"
+      android:layout_marginBottom="16dp" />
+
+    <!-- TextViews for each group member -->
+    <TextView
+      android:id="@+id/member1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:text="@string/ved_dipak_deore" />
+
+    <TextView
+      android:id="@+id/member2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:text="@string/vicky_daniel_amalan"
+      android:layout_marginTop="8dp" />
+
+    <TextView
+      android:id="@+id/member3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:text="@string/shivam_sah"
+      android:layout_marginTop="8dp" />
+
+  </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

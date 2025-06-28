@@ -40,4 +40,26 @@ public class MainActivity extends AppCompatActivity {
     Intent intent = new Intent(MainActivity.this, FoodRecipeRequestActivity.class);
     startActivity(intent);
   }
+
+  /**
+   * This method is called when the user clicks the "About" button. It displays a new activity with
+   * the developer's name.
+   *
+   * @param view The view that was clicked.
+   */
+  public void onAboutGroupClick(View view) {
+    Intent intent = new Intent(MainActivity.this, AboutGroup.class);
+    startActivity(intent);
+  }
+
+  /**
+   * This method is called when the user clicks the "Firebase Assignment" button. It starts the
+   * Firebase Assignment activity.
+   *
+   * @param view The view that was clicked.
+   */
+  public void onFirebaseAssignmentClick(View view) {
+    Intent intent = new Intent(MainActivity.this, SignIn.class);
+    startActivity(intent);
+  }
 }
