@@ -33,6 +33,10 @@
   <string name="vicky_daniel_amalan">Vicky Daniel Amalan</string>
   <string name="shivam_sah">Shivam Sah</string>
   <string name="sign_in">Sign In</string>
+  <string name="sign_up">Sign Up</string>
   <string name="enter_username">Enter Username</string>
+  <string name="enter_first_name">First Name</string>
+  <string name="enter_last_name">Last Name</string>
   <string name="submit">Submit</string>
+  <string name="already_a_member">Already a member?</string>
 </resources>
