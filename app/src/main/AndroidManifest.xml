@@ -16,6 +16,9 @@
       android:exported="false"
       android:name=".activities.SignInActivity" />
     <activity
+        android:exported="false"
+        android:name=".activities.SignUpActivity" />
+    <activity
       android:exported="false"
       android:name=".activities.AboutGroupActivity" />
     <activity

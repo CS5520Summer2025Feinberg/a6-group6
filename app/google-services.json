@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "941288923380",
+    "firebase_url": "https://stickerchat-ff827-default-rtdb.firebaseio.com",
+    "project_id": "stickerchat-ff827",
+    "storage_bucket": "stickerchat-ff827.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941288923380:android:5ef08451677880b300fea1",
+        "android_client_info": {
+          "package_name": "edu.northeastern.a6_assignments"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrOuPEPXGxdJ8lDyFXUXY2cGVdKS5EMKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -49,7 +49,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     // Import the Firebase BoM
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
 
 
 }
