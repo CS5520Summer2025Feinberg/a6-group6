@@ -43,11 +43,11 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     stickerImageMap = new HashMap<>();
     // Map sticker tags to drawable resources
     stickerImageMap.put("sticker1", R.drawable.sticker1);
-    stickerImageMap.put("sticker2", R.drawable.sticker2);
-    stickerImageMap.put("sticker3", R.drawable.sticker3);
-    stickerImageMap.put("sticker4", R.drawable.sticker4);
-    stickerImageMap.put("sticker5", R.drawable.sticker5);
-    stickerImageMap.put("sticker6", R.drawable.sticker6);
+    stickerImageMap.put("sticker2", R.drawable.sticker1);
+    stickerImageMap.put("sticker3", R.drawable.sticker1);
+    stickerImageMap.put("sticker4", R.drawable.sticker1);
+    stickerImageMap.put("sticker5", R.drawable.sticker1);
+    stickerImageMap.put("sticker6", R.drawable.sticker1);
   }
 
   private void initializeViews() {
