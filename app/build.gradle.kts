@@ -51,6 +51,8 @@ dependencies {
     // Import the Firebase BoM
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+    implementation(libs.swiperefreshlayout)
+    implementation(libs.cardview)
 
 
 }

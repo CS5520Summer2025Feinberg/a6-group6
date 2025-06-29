@@ -3,4 +3,30 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dark_grey">#858383</color>
+
+    <!-- Primary Colors -->
+    <color name="primary_color">#6200EE</color>
+    <color name="primary_variant_color">#3700B3</color>
+    <color name="secondary_color">#03DAC6</color>
+    <color name="secondary_variant_color">#018786</color>
+
+    <!-- Background Colors -->
+    <color name="background_color">#F5F5F5</color>
+    <color name="surface_color">#FFFFFF</color>
+    <color name="card_background_color">#FFFFFF</color>
+
+    <!-- Text Colors -->
+    <color name="primary_text_color">#212121</color>
+    <color name="secondary_text_color">#757575</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Status Colors -->
+    <color name="success_color">#4CAF50</color>
+    <color name="error_color">#F44336</color>
+    <color name="warning_color">#FF9800</color>
+    <color name="info_color">#2196F3</color>
+
+    <!-- Sticker Related Colors -->
+    <color name="sticker_selected">#E3F2FD</color>
+    <color name="sticker_border">#BBDEFB</color>
 </resources>
