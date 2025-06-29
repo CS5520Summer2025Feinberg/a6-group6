@@ -9,7 +9,7 @@
 
     <!-- The CardView to contain the sign-in form -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/signInCard"
+        android:id="@+id/signUpCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
@@ -31,7 +31,7 @@
             <!-- EditText for username input -->
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
@@ -56,7 +56,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/first_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/sign_up" />
 
             <EditText
                 android:id="@+id/first_name"
@@ -91,6 +91,7 @@
                 android:id="@+id/submitButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onSubmit"
                 android:text="@string/submit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/last_name"
@@ -105,24 +106,25 @@
         android:layout_height="wrap_content"
         android:text="@string/already_a_member"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/sign_in_link"
+        app:layout_constraintEnd_toStartOf="@+id/sign_up_link"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInCard" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpCard" />
 
     <TextView
-        android:id="@+id/sign_in_link"
+        android:id="@+id/sign_up_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:onClick="onClickSignIn"
+        android:text="@string/sign_in"
         android:textColor="#3252a8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/sign_in_message"
-        app:layout_constraintTop_toBottomOf="@+id/signInCard" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpCard" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
