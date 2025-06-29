@@ -92,6 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
     public void onClickSignIn(View view){
         Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
         startActivity(intent);
+        finish();
     }
     private void clearFields() {
         username.setText("");
