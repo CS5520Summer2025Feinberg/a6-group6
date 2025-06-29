@@ -9,8 +9,24 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import edu.northeastern.a6_assignments.R;
 import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import edu.northeastern.a6_assignments.R;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SendStickerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -23,13 +39,25 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
   // HashMap to map sticker tags to drawable resources
   private HashMap<String, Integer> stickerImageMap;
 
-  // Sample user list - replace with your actual user data
-  private String[] users = {"Select a user...", "John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"};
+  // Dynamic user list populated from Firebase
+  private List<String> usersList;
+  private ArrayAdapter<String> usersAdapter;
+  private String currentUsername; // Store current user to exclude from list
+
+  private DatabaseReference usersRef;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_send_sticker);
+
+    // Get the current username from Intent
+    Bundle bundle = getIntent().getExtras();
+    if (bundle != null) {
+      currentUsername = bundle.getString("username");
+    }
+
+    usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
     initializeStickerImageMap();
     initializeViews();
@@ -37,6 +65,7 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     setupUserSpinner();
     setupSendButton();
     loadStickerImages();
+    loadUsersFromFirebase();
   }
 
   private void initializeStickerImageMap() {
@@ -85,14 +114,50 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
   }
 
   private void setupUserSpinner() {
+    // Initialize the users list with default option
+    usersList = new ArrayList<>();
+    usersList.add("Select a user...");
+
     // Create adapter for user spinner
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+    usersAdapter = new ArrayAdapter<>(
             this,
             android.R.layout.simple_spinner_item,
-            users
+            usersList
     );
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinnerSelectUser.setAdapter(adapter);
+    usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinnerSelectUser.setAdapter(usersAdapter);
+  }
+
+  private void loadUsersFromFirebase() {
+    usersRef.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        // Clear existing users (except the default option)
+        usersList.clear();
+        usersList.add("Select a user...");
+
+        // Add users from Firebase
+        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+          String username = userSnapshot.getKey();
+
+          // Exclude current user from the list
+          if (username != null && !username.equals(currentUsername)) {
+            usersList.add(username);
+          }
+        }
+
+        // Notify adapter of data change
+        usersAdapter.notifyDataSetChanged();
+
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+        Toast.makeText(SendStickerActivity.this,
+                "Failed to load users: " + databaseError.getMessage(),
+                Toast.LENGTH_LONG).show();
+      }
+    });
   }
 
   private void setupSendButton() {
@@ -120,8 +185,7 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     // Select the clicked sticker
     clickedSticker.setSelected(true);
     selectedSticker = clickedSticker;
-
-    // Optional: Add visual feedback
+    
     String stickerName = getStickerName((String) clickedSticker.getTag());
     Toast.makeText(this, "Selected: " + stickerName, Toast.LENGTH_SHORT).show();
   }
@@ -143,45 +207,56 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
   }
 
   private void sendSticker() {
-    String selectedUser = users[spinnerSelectUser.getSelectedItemPosition()];
+    String selectedUser = usersList.get(spinnerSelectUser.getSelectedItemPosition());
     String stickerTag = (String) selectedSticker.getTag();
     String stickerName = getStickerName(stickerTag);
 
-    // Implement your send sticker logic here
-    Toast.makeText(this,
-            "Sending " + stickerName + " to " + selectedUser,
-            Toast.LENGTH_LONG).show();
+    // Create the message data
+    DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference().child("messages");
+    String messageId = messagesRef.push().getKey(); // Generate unique message ID
 
-    // Optional: Close activity after sending
-    // finish();
+    if (messageId != null) {
+      // Create message object
+      Map<String, Object> messageData = new HashMap<>();
+      messageData.put("receiverId", selectedUser);
+      messageData.put("senderId", currentUsername);
+      messageData.put("stickerId", stickerTag);
+      messageData.put("timeStamp", System.currentTimeMillis()); // Current timestamp in milliseconds
+
+      // Save to Firebase
+      messagesRef.child(messageId).setValue(messageData)
+              .addOnSuccessListener(aVoid -> {
+                Toast.makeText(SendStickerActivity.this,
+                        "Sticker sent successfully to " + selectedUser,
+                        Toast.LENGTH_LONG).show();
+              })
+              .addOnFailureListener(e -> {
+                Toast.makeText(SendStickerActivity.this,
+                        "Failed to send sticker: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+              });
+    } else {
+      Toast.makeText(this, "Failed to generate message ID", Toast.LENGTH_SHORT).show();
+    }
   }
 
-  // Helper method to get user-friendly sticker names
   private String getStickerName(String tag) {
     switch (tag) {
-      case "sticker1": return "Happy Face";
-      case "sticker2": return "Thumbs Up";
-      case "sticker3": return "Heart";
-      case "sticker4": return "Star";
-      case "sticker5": return "Fire";
-      case "sticker6": return "Peace";
+      case "sticker1": return "My Sticker 1";
+      case "sticker2": return "My Sticker 2";
+      case "sticker3": return "My Sticker 3";
+      case "sticker4": return "My Sticker 4";
+      case "sticker5": return "My Sticker 5";
+      case "sticker6": return "My Sticker 6";
       default: return tag;
     }
   }
 
-  // Method to programmatically update sticker images (if needed later)
   public void updateStickerImage(String stickerTag, int drawableResource) {
     stickerImageMap.put(stickerTag, drawableResource);
-    loadStickerImages(); // Reload all images
+    loadStickerImages();
   }
 
-  // Method to set users programmatically
-  public void setUsers(String[] userList) {
-    this.users = userList;
-    setupUserSpinner();
-  }
-
-  // Method to get selected sticker info
   public Map<String, Object> getSelectedStickerInfo() {
     if (selectedSticker != null) {
       Map<String, Object> info = new HashMap<>();
