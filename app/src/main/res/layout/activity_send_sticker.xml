@@ -5,221 +5,183 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
     tools:context=".activities.SendStickerActivity">
 
-  <!-- Guidelines for responsive layout -->
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_top"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintGuide_percent="0.12" />
-
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_bottom"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintGuide_percent="0.88" />
-
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_left"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.08" />
-
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_right"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.92" />
-
-  <!-- Title -->
   <TextView
-      android:id="@+id/tvTitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Send Sticker"
-      android:textSize="24sp"
-      android:textStyle="bold"
-      android:textColor="@android:color/black"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginTop="32dp" />
+    android:id="@+id/sendStickerTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/send_sticker"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/black"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="24dp" />
 
-  <!-- Scrollable Container for all sticker content -->
   <ScrollView
-      android:id="@+id/scrollContainer"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:fillViewport="false"
-      android:scrollbars="vertical"
-      android:fadeScrollbars="true"
-      app:layout_constraintTop_toBottomOf="@id/tvTitle"
-      app:layout_constraintStart_toStartOf="@id/guideline_left"
-      app:layout_constraintEnd_toEndOf="@id/guideline_right"
-      app:layout_constraintBottom_toTopOf="@id/btnSend"
-      android:layout_marginTop="80dp"
-      android:layout_marginBottom="32dp">
+    android:id="@+id/scrollView"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:fillViewport="true"
+    app:layout_constraintTop_toBottomOf="@id/sendStickerTitle"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="18dp"
+    android:layout_marginStart="44dp"
+    android:layout_marginEnd="44dp">
 
-    <!-- Container for sticker selection -->
     <LinearLayout
-        android:id="@+id/containerStickers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/rounded_border"
-        android:padding="24dp">
+      android:id="@+id/sticker_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
 
       <Button
-          android:id="@+id/btnSelectSticker"
-          android:layout_width="match_parent"
-          android:layout_height="48dp"
-          android:text="Select Sticker"
-          android:textColor="@android:color/black"
-          android:background="@drawable/button_outline"
-          android:layout_marginBottom="24dp"
-          android:enabled="false"
-          android:alpha="0.6" />
+        android:id="@+id/btnSelectSticker"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Select Sticker"
+        android:textColor="@android:color/black"
+        android:background="@drawable/button_outline"
+        android:layout_marginBottom="24dp"
+        android:enabled="false"
+        android:alpha="0.6" />
 
-      <!-- Sticker Grid using GridLayout -->
       <GridLayout
-          android:id="@+id/gridStickers"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:columnCount="2"
-          android:rowCount="2"
-          android:layout_marginBottom="24dp"
-          android:layout_gravity="center">
+        android:id="@+id/gridStickers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="center">
 
         <!-- Sticker 1 Container -->
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp">
+          android:layout_width="0dp"
+          android:layout_height="110dp"
+          android:layout_columnWeight="1"
+          android:layout_margin="8dp">
 
           <ImageView
-              android:id="@+id/stickerOption1"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/sticker_selector"
-              android:scaleType="centerInside"
-              android:src="@drawable/ic_placeholder"
-              android:clickable="true"
-              android:focusable="true"
-              android:padding="8dp"
-              android:tag="sticker1" />
+            android:id="@+id/stickerOption1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sticker_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_placeholder"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"
+            android:tag="sticker1" />
 
         </FrameLayout>
 
         <!-- Sticker 2 Container -->
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp">
+          android:layout_width="0dp"
+          android:layout_height="110dp"
+          android:layout_columnWeight="1"
+          android:layout_margin="8dp">
 
           <ImageView
-              android:id="@+id/stickerOption2"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/sticker_selector"
-              android:scaleType="centerInside"
-              android:src="@drawable/ic_placeholder"
-              android:clickable="true"
-              android:focusable="true"
-              android:padding="8dp"
-              android:tag="sticker2" />
+            android:id="@+id/stickerOption2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sticker_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_placeholder"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"
+            android:tag="sticker2" />
 
         </FrameLayout>
 
         <!-- Sticker 3 Container -->
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp">
+          android:layout_width="0dp"
+          android:layout_height="110dp"
+          android:layout_columnWeight="1"
+          android:layout_margin="8dp">
 
           <ImageView
-              android:id="@+id/stickerOption3"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/sticker_selector"
-              android:scaleType="centerInside"
-              android:src="@drawable/ic_placeholder"
-              android:clickable="true"
-              android:focusable="true"
-              android:padding="8dp"
-              android:tag="sticker3" />
+            android:id="@+id/stickerOption3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sticker_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_placeholder"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"
+            android:tag="sticker3" />
 
         </FrameLayout>
 
         <!-- Sticker 4 Container -->
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp">
+          android:layout_width="0dp"
+          android:layout_height="110dp"
+          android:layout_columnWeight="1"
+          android:layout_margin="8dp">
 
           <ImageView
-              android:id="@+id/stickerOption4"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/sticker_selector"
-              android:scaleType="centerInside"
-              android:src="@drawable/ic_placeholder"
-              android:clickable="true"
-              android:focusable="true"
-              android:padding="8dp"
-              android:tag="sticker4" />
+            android:id="@+id/stickerOption4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sticker_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_placeholder"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:tag="sticker4" />
 
         </FrameLayout>
 
-        <!-- Additional stickers for testing scroll -->
         <!-- Sticker 5 Container -->
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp">
+          android:layout_width="0dp"
+          android:layout_height="110dp"
+          android:layout_columnWeight="1"
+          android:layout_margin="8dp">
 
           <ImageView
-              android:id="@+id/stickerOption5"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/sticker_selector"
-              android:scaleType="centerInside"
-              android:src="@drawable/ic_placeholder"
-              android:clickable="true"
-              android:focusable="true"
-              android:padding="8dp"
-              android:tag="sticker5" />
+            android:id="@+id/stickerOption5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sticker_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_placeholder"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"
+            android:tag="sticker5" />
 
         </FrameLayout>
 
         <!-- Sticker 6 Container -->
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp">
+          android:layout_width="0dp"
+          android:layout_height="110dp"
+          android:layout_columnWeight="1"
+          android:layout_margin="8dp">
 
           <ImageView
-              android:id="@+id/stickerOption6"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/sticker_selector"
-              android:scaleType="centerInside"
-              android:src="@drawable/ic_placeholder"
-              android:clickable="true"
-              android:focusable="true"
-              android:padding="8dp"
-              android:tag="sticker6" />
+            android:id="@+id/stickerOption6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sticker_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_placeholder"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"
+            android:tag="sticker6" />
 
         </FrameLayout>
 
@@ -227,28 +189,30 @@
 
       <!-- Select User Dropdown -->
       <Spinner
-          android:id="@+id/spinnerSelectUser"
-          android:layout_width="match_parent"
-          android:layout_height="48dp"
-          android:background="@drawable/button_outline"
-          android:prompt="@string/select_user_prompt" />
+        android:id="@+id/spinnerSelectUser"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/button_outline"
+        android:prompt="@string/select_user_prompt"
+        android:layout_marginBottom="34dp"/>
+
+      <!-- Send Button -->
+      <Button
+        android:id="@+id/btnSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/send"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_primary"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/spinnerSelectUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     </LinearLayout>
 
   </ScrollView>
 
-  <!-- Send Button -->
-  <Button
-      android:id="@+id/btnSend"
-      android:layout_width="0dp"
-      android:layout_height="56dp"
-      android:text="Send"
-      android:textSize="18sp"
-      android:textStyle="bold"
-      android:background="@drawable/button_primary"
-      android:textColor="@android:color/white"
-      app:layout_constraintTop_toTopOf="@id/guideline_bottom"
-      app:layout_constraintStart_toStartOf="@id/guideline_left"
-      app:layout_constraintEnd_toEndOf="@id/guideline_right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

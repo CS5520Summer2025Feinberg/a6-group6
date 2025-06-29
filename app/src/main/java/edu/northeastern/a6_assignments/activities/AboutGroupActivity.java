@@ -10,8 +10,8 @@ import androidx.core.view.WindowInsetsCompat;
 import edu.northeastern.a6_assignments.R;
 
 /**
- * AboutGroup is an Android activity that displays information about the development group.
- * It sets up the user interface and handles window insets for proper layout.
+ * AboutGroup is an Android activity that displays information about the development group. It sets
+ * up the user interface and handles window insets for proper layout.
  */
 public class AboutGroupActivity extends AppCompatActivity {
 

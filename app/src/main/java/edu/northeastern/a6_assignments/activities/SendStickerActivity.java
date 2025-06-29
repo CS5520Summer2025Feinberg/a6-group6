@@ -1,5 +1,6 @@
 package edu.northeastern.a6_assignments.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,17 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import edu.northeastern.a6_assignments.R;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SendStickerActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,10 +49,8 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     setContentView(R.layout.activity_send_sticker);
 
     // Get the current username from Intent
-    Bundle bundle = getIntent().getExtras();
-    if (bundle != null) {
-      currentUsername = bundle.getString("username");
-    }
+    SharedPreferences sharedPreferences = getSharedPreferences("StickerAppPrefs", MODE_PRIVATE);
+    currentUsername = sharedPreferences.getString("loggedInUser", null);
 
     usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
@@ -121,9 +116,9 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
 
     // Create adapter for user spinner
     usersAdapter = new ArrayAdapter<>(
-            this,
-            android.R.layout.simple_spinner_item,
-            usersList
+        this,
+        android.R.layout.simple_spinner_item,
+        usersList
     );
     usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinnerSelectUser.setAdapter(usersAdapter);
@@ -155,8 +150,8 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
       @Override
       public void onCancelled(@NonNull DatabaseError databaseError) {
         Toast.makeText(SendStickerActivity.this,
-                "Failed to load users: " + databaseError.getMessage(),
-                Toast.LENGTH_LONG).show();
+            "Failed to load users: " + databaseError.getMessage(),
+            Toast.LENGTH_LONG).show();
       }
     });
   }
@@ -226,16 +221,16 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
 
       // Save to Firebase
       messagesRef.child(messageId).setValue(messageData)
-              .addOnSuccessListener(aVoid -> {
-                Toast.makeText(SendStickerActivity.this,
-                        "Sticker sent successfully to " + selectedUser,
-                        Toast.LENGTH_LONG).show();
-              })
-              .addOnFailureListener(e -> {
-                Toast.makeText(SendStickerActivity.this,
-                        "Failed to send sticker: " + e.getMessage(),
-                        Toast.LENGTH_LONG).show();
-              });
+          .addOnSuccessListener(aVoid -> {
+            Toast.makeText(SendStickerActivity.this,
+                "Sticker sent successfully to " + selectedUser,
+                Toast.LENGTH_LONG).show();
+          })
+          .addOnFailureListener(e -> {
+            Toast.makeText(SendStickerActivity.this,
+                "Failed to send sticker: " + e.getMessage(),
+                Toast.LENGTH_LONG).show();
+          });
     } else {
       Toast.makeText(this, "Failed to generate message ID", Toast.LENGTH_SHORT).show();
     }
@@ -243,13 +238,20 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
 
   private String getStickerName(String tag) {
     switch (tag) {
-      case "sticker1": return "My Sticker 1";
-      case "sticker2": return "My Sticker 2";
-      case "sticker3": return "My Sticker 3";
-      case "sticker4": return "My Sticker 4";
-      case "sticker5": return "My Sticker 5";
-      case "sticker6": return "My Sticker 6";
-      default: return tag;
+      case "sticker1":
+        return "My Sticker 1";
+      case "sticker2":
+        return "My Sticker 2";
+      case "sticker3":
+        return "My Sticker 3";
+      case "sticker4":
+        return "My Sticker 4";
+      case "sticker5":
+        return "My Sticker 5";
+      case "sticker6":
+        return "My Sticker 6";
+      default:
+        return tag;
     }
   }
 

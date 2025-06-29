@@ -12,11 +12,10 @@ import androidx.core.view.WindowInsetsCompat;
 import edu.northeastern.a6_assignments.R;
 
 /**
- * StickerAppHomeActivity is an Android activity that serves as the home screen for the Sticker App.
+ * StickerAppHomeActivity is an Android activity that serves as the home screen for the Sticker
+ * App.
  */
 public class StickerAppHomeActivity extends AppCompatActivity {
-
-  private String username;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,34 +27,33 @@ public class StickerAppHomeActivity extends AppCompatActivity {
       v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
       return insets;
     });
-
-    Bundle bundle = getIntent().getExtras();
-    if (bundle != null) {
-      username = bundle.getString("username");
-    }
   }
 
   public void onSendStickerActivity(View view) {
     Intent intent = new Intent(StickerAppHomeActivity.this, SendStickerActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putString("username", username);
-    intent.putExtras(bundle);
     startActivity(intent);
   }
 
   public void onStickerReceivedHistoryActivity(View view) {
     Intent intent = new Intent(StickerAppHomeActivity.this, StickerReceivedActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putString("username", username);
-    intent.putExtras(bundle);
     startActivity(intent);
   }
 
   public void onStickerSentHistoryActivity(View view) {
     Intent intent = new Intent(StickerAppHomeActivity.this, StickerSentActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putString("username", username);
-    intent.putExtras(bundle);
     startActivity(intent);
+  }
+
+  public void onLogout(View view) {
+    // Clear SharedPreferences
+    getSharedPreferences("StickerAppPrefs", MODE_PRIVATE)
+        .edit()
+        .clear()
+        .apply();
+
+    // Start LoginActivity (replace with your actual login activity class)
+    Intent intent = new Intent(StickerAppHomeActivity.this, SignInActivity.class);
+    startActivity(intent);
+    finish();
   }
 }

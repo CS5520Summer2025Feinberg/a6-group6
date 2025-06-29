@@ -8,12 +8,188 @@
   tools:context=".activities.StickerSentActivity">
 
   <TextView
-    android:id="@+id/textView5"
+    android:id="@+id/heading"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Sticker Sent History Activity"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
+    android:text="@string/sticker_sent_history"
+    android:textStyle="bold"
+    android:textSize="24sp"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"/>
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="24dp"/>
+
+  <ScrollView
+    android:id="@+id/scrollView"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:fillViewport="true"
+    app:layout_constraintTop_toBottomOf="@id/heading"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="18dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp">
+
+    <LinearLayout
+      android:id="@+id/sticker_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <!-- Sticker 1 -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="18dp">
+
+        <ImageView
+          android:id="@+id/sticker1_img"
+          android:layout_width="118dp"
+          android:layout_height="118dp"
+          android:contentDescription="@string/cat"
+          android:src="@drawable/sticker1"/>
+
+        <TextView
+          android:id="@+id/sticker1_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Count: 0"
+          android:textSize="28sp"
+          android:layout_marginStart="24dp"/>
+
+      </LinearLayout>
+
+      <!-- Sticker 2 -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="18dp">
+
+        <ImageView
+          android:id="@+id/sticker2_img"
+          android:layout_width="118dp"
+          android:layout_height="118dp"
+          android:contentDescription="@string/horse"
+          android:src="@drawable/sticker2"/>
+
+        <TextView
+          android:id="@+id/sticker2_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Count: 0"
+          android:textSize="28sp"
+          android:layout_marginStart="24dp"/>
+
+      </LinearLayout>
+
+      <!-- Sticker 3 -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="18dp">
+
+        <ImageView
+          android:id="@+id/sticker3_img"
+          android:layout_width="118dp"
+          android:layout_height="118dp"
+          android:contentDescription="@string/cow"
+          android:src="@drawable/sticker3"/>
+
+        <TextView
+          android:id="@+id/sticker3_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Count: 0"
+          android:textSize="28sp"
+          android:layout_marginStart="24dp"/>
+
+      </LinearLayout>
+
+      <!-- Sticker 4 -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="18dp">
+
+        <ImageView
+          android:id="@+id/sticker4_img"
+          android:layout_width="118dp"
+          android:layout_height="118dp"
+          android:contentDescription="@string/sheep"
+          android:src="@drawable/sticker4"/>
+
+        <TextView
+          android:id="@+id/sticker4_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Count: 0"
+          android:textSize="28sp"
+          android:layout_marginStart="24dp"/>
+
+      </LinearLayout>
+
+      <!-- Sticker 5 -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="18dp">
+
+        <ImageView
+          android:id="@+id/sticker5_img"
+          android:layout_width="118dp"
+          android:layout_height="118dp"
+          android:contentDescription="@string/flamingo"
+          android:src="@drawable/sticker5"/>
+
+        <TextView
+          android:id="@+id/sticker5_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Count: 0"
+          android:textSize="28sp"
+          android:layout_marginStart="24dp"/>
+
+      </LinearLayout>
+
+      <!-- Sticker 6 -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="18dp">
+
+        <ImageView
+          android:id="@+id/sticker6_img"
+          android:layout_width="118dp"
+          android:layout_height="118dp"
+          android:contentDescription="@string/crocodile"
+          android:src="@drawable/sticker6"/>
+
+        <TextView
+          android:id="@+id/sticker6_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Count: 0"
+          android:textSize="28sp"
+          android:layout_marginStart="24dp"/>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

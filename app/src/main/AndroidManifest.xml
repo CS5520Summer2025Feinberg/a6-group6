@@ -12,6 +12,10 @@
       android:supportsRtl="true"
       android:theme="@style/Theme.A6Assignments"
       tools:targetApi="31">
+        <service
+          android:name=".helpers.FirebaseMessageListener"
+          android:exported="false"
+          android:foregroundServiceType="dataSync" />
         <activity
           android:exported="false"
           android:name=".activities.StickerSentActivity" />
@@ -51,5 +55,8 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
 
 </manifest>

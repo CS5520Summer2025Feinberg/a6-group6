@@ -1,5 +1,7 @@
 package edu.northeastern.a6_assignments.activities;
 
+import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,11 +45,15 @@ public class StickerReceivedActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_sticker_received);
 
-    // Get current username from intent
-    Bundle bundle = getIntent().getExtras();
-    if (bundle != null) {
-      currentUsername = bundle.getString("username");
+    int notificationId = getIntent().getIntExtra("notification_id", -1);
+    if (notificationId != -1) {
+      NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      notificationManager.cancel(notificationId);
     }
+
+    // Get current username from intent
+    SharedPreferences sharedPreferences = getSharedPreferences("StickerAppPrefs", MODE_PRIVATE);
+    currentUsername = sharedPreferences.getString("loggedInUser", null);
 
     initializeViews();
     setupRecyclerView();

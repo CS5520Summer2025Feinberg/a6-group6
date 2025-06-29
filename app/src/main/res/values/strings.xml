@@ -45,4 +45,16 @@
   <string name="sticker_received_history">Sticker Received History</string>
   <string name="sticker_sent_history">Sticker Sent History</string>
   <string name="select_user_prompt">Choose a user to send sticker to</string>
+  <string name="sticker_notification_channel">Sticker Notification Channel</string>
+  <string name="sticker_notification_channel_description">This channel is used to send notifications about sticker app</string>
+  <string name="sticker_notification_channel_id">Sticker_Notification_Channel_ID</string>
+  <string name="cat">Cat</string>
+  <string name="horse">Horse</string>
+  <string name="cow">Cow</string>
+  <string name="sheep">Sheep</string>
+  <string name="flamingo">Flamingo</string>
+  <string name="crocodile">Crocodile</string>
+  <string name="count">Count: %d</string>
+  <string name="logout">Logout</string>
+  <string name="send">Send</string>
 </resources>

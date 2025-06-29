@@ -19,8 +19,8 @@ import edu.northeastern.a6_assignments.pojo.StickerMessage;
 
 public class ReceivedStickerAdapter extends RecyclerView.Adapter<ReceivedStickerAdapter.ViewHolder> {
 
-    private Context context;
-    private List<StickerMessage> stickerMessages;
+    private final Context context;
+    private final List<StickerMessage> stickerMessages;
     private Map<String, Integer> stickerImageMap;
     private Map<String, String> stickerNameMap;
 
