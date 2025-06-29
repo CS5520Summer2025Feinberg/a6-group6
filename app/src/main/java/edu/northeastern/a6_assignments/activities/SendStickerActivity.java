@@ -72,12 +72,13 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     stickerImageMap = new HashMap<>();
     // Map sticker tags to drawable resources
     stickerImageMap.put("sticker1", R.drawable.sticker1);
-    stickerImageMap.put("sticker2", R.drawable.sticker1);
-    stickerImageMap.put("sticker3", R.drawable.sticker1);
-    stickerImageMap.put("sticker4", R.drawable.sticker1);
-    stickerImageMap.put("sticker5", R.drawable.sticker1);
-    stickerImageMap.put("sticker6", R.drawable.sticker1);
+    stickerImageMap.put("sticker2", R.drawable.sticker2);
+    stickerImageMap.put("sticker3", R.drawable.sticker3);
+    stickerImageMap.put("sticker4", R.drawable.sticker4);
+    stickerImageMap.put("sticker5", R.drawable.sticker5);
+    stickerImageMap.put("sticker6", R.drawable.sticker6);
   }
+
 
   private void initializeViews() {
     // Initialize sticker ImageViews
@@ -185,7 +186,7 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     // Select the clicked sticker
     clickedSticker.setSelected(true);
     selectedSticker = clickedSticker;
-    
+
     String stickerName = getStickerName((String) clickedSticker.getTag());
     Toast.makeText(this, "Selected: " + stickerName, Toast.LENGTH_SHORT).show();
   }
