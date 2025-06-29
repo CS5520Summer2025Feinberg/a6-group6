@@ -9,21 +9,13 @@
     android:background="@color/background_color"
     tools:context=".activities.StickerReceivedActivity">
 
-  <!-- Guideline for top margin -->
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_top"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintGuide_percent="0.05" />
-
   <!-- Guideline for left margin -->
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline_start"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.04" />
+      app:layout_constraintGuide_begin="16dp" />
 
   <!-- Guideline for right margin -->
   <androidx.constraintlayout.widget.Guideline
@@ -31,17 +23,8 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.96" />
+      app:layout_constraintGuide_end="16dp" />
 
-  <!-- Guideline for bottom margin -->
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_bottom"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintGuide_percent="0.95" />
-
-  <!-- Header Section -->
   <TextView
       android:id="@+id/textViewTitle"
       android:layout_width="0dp"
@@ -52,27 +35,34 @@
       android:textColor="@color/primary_text_color"
       android:gravity="center"
       android:padding="16dp"
-      app:layout_constraintTop_toTopOf="@id/guideline_top"
+      android:layout_marginTop="16dp"
+      app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="@id/guideline_start"
       app:layout_constraintEnd_toEndOf="@id/guideline_end" />
 
-  <!-- Guideline for content separation -->
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline_content_top"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintGuide_percent="0.12" />
+  <!-- Divider line (optional) -->
+  <View
+      android:id="@+id/divider"
+      android:layout_width="0dp"
+      android:layout_height="1dp"
+      android:background="@color/secondary_text_color"
+      android:alpha="0.2"
+      android:layout_marginTop="8dp"
+      app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+      app:layout_constraintStart_toStartOf="@id/guideline_start"
+      app:layout_constraintEnd_toEndOf="@id/guideline_end" />
 
   <!-- Swipe Refresh Layout containing RecyclerView -->
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
       android:id="@+id/swipeRefreshLayout"
       android:layout_width="0dp"
       android:layout_height="0dp"
-      app:layout_constraintTop_toTopOf="@id/guideline_content_top"
+      android:layout_marginTop="16dp"
+      android:layout_marginBottom="16dp"
+      app:layout_constraintTop_toBottomOf="@id/divider"
       app:layout_constraintStart_toStartOf="@id/guideline_start"
       app:layout_constraintEnd_toEndOf="@id/guideline_end"
-      app:layout_constraintBottom_toTopOf="@id/guideline_bottom">
+      app:layout_constraintBottom_toBottomOf="parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewReceivedStickers"
@@ -81,6 +71,7 @@
         android:clipToPadding="false"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+        android:scrollbars="vertical"
         tools:listitem="@layout/item_received_sticker" />
 
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -89,12 +80,12 @@
   <LinearLayout
       android:id="@+id/linearLayoutEmptyState"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:orientation="vertical"
       android:gravity="center"
       android:visibility="gone"
-      app:layout_constraintTop_toTopOf="@id/guideline_content_top"
-      app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
+      app:layout_constraintTop_toBottomOf="@id/divider"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="@id/guideline_start"
       app:layout_constraintEnd_toEndOf="@id/guideline_end">
 
@@ -103,7 +94,8 @@
         android:layout_height="80dp"
         android:src="@drawable/ic_sticker_placeholder"
         android:alpha="0.3"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:contentDescription="No stickers placeholder" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,7 +103,8 @@
         android:text="No stickers received yet"
         android:textSize="18sp"
         android:textColor="@color/secondary_text_color"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -119,7 +112,8 @@
         android:text="Pull down to refresh"
         android:textSize="14sp"
         android:textColor="@color/secondary_text_color"
-        android:alpha="0.7" />
+        android:alpha="0.7"
+        android:gravity="center" />
 
   </LinearLayout>
 
