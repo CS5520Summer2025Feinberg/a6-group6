@@ -178,7 +178,7 @@
           android:id="@+id/sticker6_img"
           android:layout_width="118dp"
           android:layout_height="118dp"
-          android:contentDescription="@string/crocodile"
+          android:contentDescription="@string/panda"
           android:src="@drawable/sticker6"/>
 
         <TextView
