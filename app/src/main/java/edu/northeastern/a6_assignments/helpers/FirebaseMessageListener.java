@@ -119,6 +119,8 @@ public class FirebaseMessageListener extends Service {
         return R.drawable.sticker4;
       case "sticker5":
         return R.drawable.sticker5;
+      case "sticker6":
+        return R.drawable.sticker6;
       default:
         return R.drawable.ic_launcher_vsv_foreground;
     }
