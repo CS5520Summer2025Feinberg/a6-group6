@@ -33,8 +33,11 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // Create the notification channel for Android O and above
     createNotificationChannel();
     requestPermission(NOTIFICATION_REQUEST_CODE);
+
     EdgeToEdge.enable(this);
     setContentView(R.layout.activity_main);
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -43,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
       return insets;
     });
 
+    // Start the Firebase message listener service
     Intent serviceIntent = new Intent(MainActivity.this,
         edu.northeastern.a6_assignments.helpers.FirebaseMessageListener.class);
     startForegroundService(serviceIntent);
-
-    requestPermission(NOTIFICATION_REQUEST_CODE);
   }
 
   /**
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
+  /**
+   * This method creates a notification channel for Android O and above. It is necessary to create a
+   * notification channel to display notifications on these versions of Android.
+   */
   public void createNotificationChannel() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       CharSequence name = getString(R.string.sticker_notification_channel);
@@ -101,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  /**
+   * Requests notification permission for Android Tiramisu (API level 33) and above. If the
+   * permission is not granted, it prompts the user to allow notifications.
+   *
+   * @param requestCode The request code for the permission request.
+   */
   protected void requestPermission(int requestCode) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
       int permission = ContextCompat.checkSelfPermission(this,

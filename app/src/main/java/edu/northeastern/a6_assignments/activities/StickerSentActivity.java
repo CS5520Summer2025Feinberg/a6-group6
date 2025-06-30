@@ -19,8 +19,12 @@ import edu.northeastern.a6_assignments.R;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity to display the number of stickers sent by the current user.
+ */
 public class StickerSentActivity extends AppCompatActivity {
 
+  // Firebase database reference
   private DatabaseReference messagesRef;
   String currentUsername;
   private final TextView[] stickerCountViews = new TextView[6];
@@ -36,6 +40,7 @@ public class StickerSentActivity extends AppCompatActivity {
       return insets;
     });
 
+    // Retrieve the current username from SharedPreferences
     SharedPreferences sharedPreferences = getSharedPreferences("StickerAppPrefs", MODE_PRIVATE);
     currentUsername = sharedPreferences.getString("loggedInUser", null);
 
@@ -52,6 +57,9 @@ public class StickerSentActivity extends AppCompatActivity {
     fetchAndDisplayStickerCounts();
   }
 
+  /**
+   * Fetches the sticker counts from Firebase and updates the UI.
+   */
   private void fetchAndDisplayStickerCounts() {
     messagesRef.addValueEventListener(new ValueEventListener() {
       @Override

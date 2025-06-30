@@ -26,6 +26,7 @@ import edu.northeastern.a6_assignments.R;
  */
 public class SignInActivity extends AppCompatActivity {
 
+  // UI elements
   private EditText username;
   private DatabaseReference usersRef;
 
@@ -35,6 +36,7 @@ public class SignInActivity extends AppCompatActivity {
     EdgeToEdge.enable(this);
     setContentView(R.layout.activity_sign_in);
 
+    // Check if the user is already logged in
     SharedPreferences sharedPreferences = getSharedPreferences("StickerAppPrefs", MODE_PRIVATE);
     String loggedInUser = sharedPreferences.getString("loggedInUser", null);
 
@@ -51,6 +53,14 @@ public class SignInActivity extends AppCompatActivity {
     usersRef = FirebaseDatabase.getInstance().getReference().child("users");
   }
 
+  /**
+   * Handles the sign-in button click event.
+   * Validates the input and checks if the user exists in the database.
+   * If the user exists, saves the login state and starts the home activity.
+   * If not, prompts the user to sign up.
+   *
+   * @param view The view that was clicked.
+   */
   public void onSubmit(View view) {
     String usernameText = username.getText().toString().trim();
 
@@ -93,6 +103,12 @@ public class SignInActivity extends AppCompatActivity {
     });
   }
 
+  /**
+   * Handles the sign-up button click event.
+   * Starts the SignUpActivity to allow the user to create a new account.
+   *
+   * @param view The view that was clicked.
+   */
   public void onClickSignUp(View view) {
     Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
     startActivity(intent);

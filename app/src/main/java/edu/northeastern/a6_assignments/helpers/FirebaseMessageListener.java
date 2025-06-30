@@ -20,25 +20,30 @@ import edu.northeastern.a6_assignments.activities.StickerReceivedActivity;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * FirebaseMessageListener is a service that listens for new messages in Firebase Realtime Database
+ * and sends notifications to the user when a new sticker message is received.
+ */
 public class FirebaseMessageListener extends Service {
 
+  // Firebase Realtime Database references
   private DatabaseReference messagesRef;
   private DatabaseReference usersRef;
   private ValueEventListener messageListener;
   private String currentUsername;
 
+  // Set to keep track of notified message keys
   private final Set<String> notifiedMessageKeys = new HashSet<>();
-
   private static final String PREFS_NAME = "StickerAppPrefs";
   private static final String NOTIFIED_KEYS = "notified_message_keys";
   SharedPreferences notifiedPrefs;
-
 
   @Override
   public void onCreate() {
     super.onCreate();
     startForeground(1, getServiceNotification());
 
+    // Retrieve the logged-in user from SharedPreferences
     SharedPreferences sharedPreferences = getSharedPreferences("StickerAppPrefs", MODE_PRIVATE);
     String loggedInUser = sharedPreferences.getString("loggedInUser", null);
 
@@ -57,6 +62,10 @@ public class FirebaseMessageListener extends Service {
     attachMessageListener();
   }
 
+  /**
+   * Attaches a listener to the messages reference in Firebase Realtime Database. It checks for new
+   * messages directed to the current user and sends notifications.
+   */
   private void attachMessageListener() {
     messageListener = new ValueEventListener() {
       @Override
@@ -76,18 +85,28 @@ public class FirebaseMessageListener extends Service {
                 notifiedMessageKeys.add(messageKey);
                 notifiedPrefs.edit().putStringSet(NOTIFIED_KEYS, notifiedMessageKeys).apply();
               }
+
               @Override
-              public void onCancelled(@NonNull DatabaseError error) {}
+              public void onCancelled(@NonNull DatabaseError error) {
+              }
             });
           }
         }
       }
+
       @Override
-      public void onCancelled(@NonNull DatabaseError error) {}
+      public void onCancelled(@NonNull DatabaseError error) {
+      }
     };
     messagesRef.addValueEventListener(messageListener);
   }
 
+  /**
+   * Returns the drawable resource ID for a given sticker ID.
+   *
+   * @param stickerId The ID of the sticker.
+   * @return The drawable resource ID for the sticker.
+   */
   private int getStickerDrawable(String stickerId) {
     switch (stickerId) {
       case "sticker1":
@@ -105,6 +124,13 @@ public class FirebaseMessageListener extends Service {
     }
   }
 
+  /**
+   * Sends a notification to the user when a new sticker message is received.
+   *
+   * @param firstName The first name of the sender.
+   * @param lastName  The last name of the sender.
+   * @param stickerId The ID of the sticker sent.
+   */
   private void sendNotification(String firstName, String lastName, String stickerId) {
     int stickerResId = getStickerDrawable(stickerId);
     Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), stickerResId);
@@ -113,7 +139,8 @@ public class FirebaseMessageListener extends Service {
     Intent intent = new Intent(this, StickerReceivedActivity.class);
     intent.putExtra("notification_id", notificationId);
     PendingIntent historyIntent = PendingIntent.getActivity(
-        this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        this, (int) System.currentTimeMillis(), intent,
+        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
     String channelId = getString(R.string.sticker_notification_channel_id);
 
@@ -132,11 +159,17 @@ public class FirebaseMessageListener extends Service {
         .setAutoCancel(true)
         .build();
 
-    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    NotificationManager notificationManager = (NotificationManager) getSystemService(
+        NOTIFICATION_SERVICE);
     notification.flags |= Notification.FLAG_AUTO_CANCEL;
     notificationManager.notify(notificationId, notification);
   }
 
+  /**
+   * Creates a foreground service notification to keep the service running.
+   *
+   * @return The notification for the service.
+   */
   private Notification getServiceNotification() {
     String channelId = getString(R.string.sticker_notification_channel_id);
     return new NotificationCompat.Builder(this, channelId)

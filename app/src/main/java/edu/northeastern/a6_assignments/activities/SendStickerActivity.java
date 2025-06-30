@@ -26,8 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity to send stickers to other users.
+ * Users can select a sticker and a recipient from a dynamically populated list.
+ */
 public class SendStickerActivity extends AppCompatActivity implements View.OnClickListener {
 
+  // Views for sticker options, user selection spinner, and send button
   private ImageView[] stickerOptions;
   private ImageView selectedSticker;
   private Spinner spinnerSelectUser;
@@ -38,9 +43,14 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
 
   // Dynamic user list populated from Firebase
   private List<String> usersList;
-  private ArrayAdapter<String> usersAdapter;
-  private String currentUsername; // Store current user to exclude from list
 
+  // Adapter for the user spinner
+  private ArrayAdapter<String> usersAdapter;
+
+  // Current username of the logged-in user
+  private String currentUsername;
+
+  // Firebase reference to the users node
   private DatabaseReference usersRef;
 
   @Override
@@ -54,6 +64,7 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
 
     usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
+    // Initialize views and data structures
     initializeStickerImageMap();
     initializeViews();
     setupStickerSelection();
@@ -63,6 +74,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     loadUsersFromFirebase();
   }
 
+  /**
+   * Initializes the sticker image map with drawable resources.
+   * Maps sticker tags to their corresponding drawable resources.
+   */
   private void initializeStickerImageMap() {
     stickerImageMap = new HashMap<>();
     // Map sticker tags to drawable resources
@@ -74,7 +89,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     stickerImageMap.put("sticker6", R.drawable.sticker6);
   }
 
-
+  /**
+   * Initializes the views used in this activity.
+   * Sets up the ImageViews for stickers, spinner for user selection, and send button.
+   */
   private void initializeViews() {
     // Initialize sticker ImageViews
     stickerOptions = new ImageView[6];
@@ -89,6 +107,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     btnSend = findViewById(R.id.btnSend);
   }
 
+  /**
+   * Loads sticker images into the ImageViews based on the tags.
+   * Uses the HashMap to get the drawable resources for each sticker.
+   */
   private void loadStickerImages() {
     // Load images into ImageViews using the HashMap
     for (ImageView stickerView : stickerOptions) {
@@ -102,6 +124,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     }
   }
 
+  /**
+   * Sets up click listeners for all sticker options.
+   * When a sticker is clicked, it will be selected and highlighted.
+   */
   private void setupStickerSelection() {
     // Set click listeners for all sticker options
     for (ImageView sticker : stickerOptions) {
@@ -109,6 +135,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     }
   }
 
+  /**
+   * Initializes the user spinner with a default option.
+   * The spinner will be populated with users from Firebase.
+   */
   private void setupUserSpinner() {
     // Initialize the users list with default option
     usersList = new ArrayList<>();
@@ -124,6 +154,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     spinnerSelectUser.setAdapter(usersAdapter);
   }
 
+  /**
+   * Loads users from Firebase Realtime Database and populates the spinner.
+   * Excludes the current user from the list.
+   */
   private void loadUsersFromFirebase() {
     usersRef.addValueEventListener(new ValueEventListener() {
       @Override
@@ -156,6 +190,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     });
   }
 
+  /**
+   * Sets up the send button click listener.
+   * Validates the selection and sends the sticker if valid.
+   */
   private void setupSendButton() {
     btnSend.setOnClickListener(v -> {
       if (validateSelection()) {
@@ -172,6 +210,12 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     }
   }
 
+  /**
+   * Selects a sticker when clicked.
+   * Deselects all other stickers and highlights the selected one.
+   *
+   * @param clickedSticker The ImageView of the clicked sticker.
+   */
   private void selectSticker(ImageView clickedSticker) {
     // Deselect all stickers first
     for (ImageView sticker : stickerOptions) {
@@ -186,6 +230,12 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     Toast.makeText(this, "Selected: " + stickerName, Toast.LENGTH_SHORT).show();
   }
 
+  /**
+   * Validates the user's selection before sending the sticker.
+   * Ensures a sticker is selected and a user is chosen from the spinner.
+   *
+   * @return true if selection is valid, false otherwise.
+   */
   private boolean validateSelection() {
     // Check if a sticker is selected
     if (selectedSticker == null) {
@@ -202,6 +252,10 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     return true;
   }
 
+  /**
+   * Sends the selected sticker to the chosen user.
+   * Creates a message object and saves it to Firebase Realtime Database.
+   */
   private void sendSticker() {
     String selectedUser = usersList.get(spinnerSelectUser.getSelectedItemPosition());
     String stickerTag = (String) selectedSticker.getTag();
@@ -236,6 +290,13 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     }
   }
 
+  /**
+   * Returns a user-friendly name for the sticker based on its tag.
+   * This is used to display the sticker name in the UI.
+   *
+   * @param tag The tag of the sticker.
+   * @return The user-friendly name of the sticker.
+   */
   private String getStickerName(String tag) {
     switch (tag) {
       case "sticker1":
@@ -255,11 +316,24 @@ public class SendStickerActivity extends AppCompatActivity implements View.OnCli
     }
   }
 
+  /**
+   * Updates the sticker image in the map and reloads the images.
+   * This method can be used to dynamically change sticker images.
+   *
+   * @param stickerTag The tag of the sticker to update.
+   * @param drawableResource The new drawable resource ID for the sticker.
+   */
   public void updateStickerImage(String stickerTag, int drawableResource) {
     stickerImageMap.put(stickerTag, drawableResource);
     loadStickerImages();
   }
 
+  /**
+   * Returns information about the currently selected sticker.
+   * This includes the tag, name, and resource ID of the sticker.
+   *
+   * @return A map containing the sticker information, or null if no sticker is selected.
+   */
   public Map<String, Object> getSelectedStickerInfo() {
     if (selectedSticker != null) {
       Map<String, Object> info = new HashMap<>();

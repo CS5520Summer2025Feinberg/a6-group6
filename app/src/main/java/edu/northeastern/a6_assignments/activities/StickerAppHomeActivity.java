@@ -29,21 +29,45 @@ public class StickerAppHomeActivity extends AppCompatActivity {
     });
   }
 
+  /**
+   * Handles the click event for the "Send Sticker" button.
+   * Starts the SendStickerActivity to allow users to send stickers.
+   *
+   * @param view The view that was clicked.
+   */
   public void onSendStickerActivity(View view) {
     Intent intent = new Intent(StickerAppHomeActivity.this, SendStickerActivity.class);
     startActivity(intent);
   }
 
+  /**
+   * Handles the click event for the "Sticker Received Sticker" button.
+   * Starts the ReceiveStickerActivity to allow users to receive stickers.
+   *
+   * @param view The view that was clicked.
+   */
   public void onStickerReceivedHistoryActivity(View view) {
     Intent intent = new Intent(StickerAppHomeActivity.this, StickerReceivedActivity.class);
     startActivity(intent);
   }
 
+  /**
+   * Handles the click event for the "Sticker Sent History" button.
+   * Starts the StickerSentActivity to show the history of sent stickers.
+   *
+   * @param view The view that was clicked.
+   */
   public void onStickerSentHistoryActivity(View view) {
     Intent intent = new Intent(StickerAppHomeActivity.this, StickerSentActivity.class);
     startActivity(intent);
   }
 
+  /**
+   * Handles the click event for the "Logout" button.
+   * Clears the SharedPreferences and starts the SignInActivity.
+   *
+   * @param view The view that was clicked.
+   */
   public void onLogout(View view) {
     // Clear SharedPreferences
     getSharedPreferences("StickerAppPrefs", MODE_PRIVATE)

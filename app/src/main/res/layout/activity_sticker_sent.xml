@@ -7,6 +7,7 @@
   android:layout_height="match_parent"
   tools:context=".activities.StickerSentActivity">
 
+  <!-- TextView for heading -->
   <TextView
     android:id="@+id/heading"
     android:layout_width="wrap_content"
@@ -19,6 +20,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     android:layout_marginTop="24dp"/>
 
+  <!-- ScrollView to hold the sticker list -->
   <ScrollView
     android:id="@+id/scrollView"
     android:layout_width="0dp"
@@ -32,6 +34,7 @@
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp">
 
+    <!-- LinearLayout to hold all stickers -->
     <LinearLayout
       android:id="@+id/sticker_list"
       android:layout_width="match_parent"

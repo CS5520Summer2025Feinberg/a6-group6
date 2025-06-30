@@ -21,14 +21,16 @@ import com.google.firebase.database.Transaction;
 import edu.northeastern.a6_assignments.R;
 import edu.northeastern.a6_assignments.pojo.Users;
 
+/**
+ * SignUpActivity allows users to create a new account by entering their username, first name, and last name.
+ * It checks if the username is unique and saves the user data in Firebase Realtime Database.
+ */
 public class SignUpActivity extends AppCompatActivity {
 
+  // UI elements
   private EditText username;
-
   private EditText firstname;
-
   private EditText lastname;
-
   private DatabaseReference usersRef;
 
   @Override
@@ -36,10 +38,12 @@ public class SignUpActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_sign_up);
 
+    // Initialize UI elements
     username = findViewById(R.id.unique_name);
     firstname = findViewById(R.id.first_name);
     lastname = findViewById(R.id.last_name);
 
+    // Initialize Firebase Realtime Database reference
     usersRef = FirebaseDatabase.getInstance().getReference().child("users");
   }
 
@@ -98,12 +102,20 @@ public class SignUpActivity extends AppCompatActivity {
     });
   }
 
+  /**
+   * Navigates to the SignInActivity when the "Sign In" button is clicked.
+   *
+   * @param view The view that was clicked.
+   */
   public void onClickSignIn(View view) {
     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
     startActivity(intent);
     finish();
   }
 
+  /**
+   * Clears the input fields for username, first name, and last name.
+   */
   private void clearFields() {
     username.setText("");
     firstname.setText("");

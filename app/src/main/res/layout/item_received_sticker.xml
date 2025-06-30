@@ -10,6 +10,7 @@
     app:cardElevation="4dp"
     app:cardBackgroundColor="@color/card_background_color">
 
+    <!-- ConstraintLayout for flexible layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -26,10 +26,7 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Title for the sign-in form -->
-
-            <!-- EditText for username input -->
-
+            <!-- Sign Up Form -->
             <TextView
                 android:id="@+id/sign_up"
                 android:layout_width="match_parent"
@@ -44,6 +41,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Unique Name Field -->
             <EditText
                 android:id="@+id/unique_name"
                 android:layout_width="match_parent"
@@ -58,6 +56,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sign_up" />
 
+            <!-- First Name and Last Name Fields -->
             <EditText
                 android:id="@+id/first_name"
                 android:layout_width="match_parent"
@@ -100,6 +99,7 @@
 
     </androidx.cardview.widget.CardView>
 
+    <!-- Sign In Message and Link -->
     <TextView
         android:id="@+id/sign_in_message"
         android:layout_width="wrap_content"
@@ -125,6 +125,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/sign_in_message"
         app:layout_constraintTop_toBottomOf="@+id/signUpCard" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
